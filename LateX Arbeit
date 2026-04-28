@@ -1,0 +1,350 @@
+\documentclass[12pt,a4paper]{article}
+
+% -------------------------
+% Pakete
+% -------------------------
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{csquotes}
+
+
+
+% -------------------------
+% Zitierstil gemäß Leitfaden
+% Harvard im Text: (vgl. Autor, Jahr, S. xx)
+% direktes Zitat: (Autor, Jahr, S. xx)
+% -------------------------
+\usepackage[
+backend=biber,
+style=authoryear,
+citestyle=authoryear,
+sorting=nyt,
+maxcitenames=2,
+maxbibnames=99,
+giveninits=true,
+uniquename=false,
+uniquelist=false,
+doi=false,
+isbn=false,
+url=true
+]{biblatex}
+
+\addbibresource{literatur.bib}
+
+\DefineBibliographyStrings{ngerman}{
+  andothers = {et al.},
+  page = {S.},
+  pages = {S.}
+}
+
+\renewcommand*{\postnotedelim}{\addcomma\space}
+
+% -------------------------
+% Seitenränder
+% -------------------------
+\geometry{
+    left=4cm,
+    right=2cm,
+    top=4cm,
+    bottom=2cm
+}
+
+% Zeilenabstand
+\onehalfspacing
+
+%Für Absätze
+\setlength{\parindent}{0pt}
+
+% -------------------------
+% Dokumentbeginn
+% -------------------------
+\begin{document}
+
+% -------------------------
+% Titelblatt
+% -------------------------
+\begin{titlepage}
+
+\begin{center}
+
+{\Large FOM Hochschule für Oekonomie \& Management}\\[1cm]
+
+{\large Seminararbeit im Modul ERP-Systeme}\\[1cm]
+
+{\huge\bfseries End‑to‑End‑Automatisierung von Produkt- und Lagerprozessen in Odoo}\\[1.5cm]
+
+\end{center}
+
+\vfill
+\begin{flushleft}
+
+Autor: Lorenz Chylka, Leonard Reglin\\
+Matrikelnummer: 736986,740270\\
+Studiengang: Wirtschaftsinformatik\\
+Semester: 6. Semester\\
+Betreuer: Dipl. Ing. Sandro Coletta\\
+Abgabedatum: TT.MM.JJJJ\\
+
+\end{flushleft}
+
+\end{titlepage}
+
+% -------------------------
+% Verzeichnisse
+% -------------------------
+\pagenumbering{Roman}
+
+\tableofcontents
+\newpage
+
+\listoffigures
+\newpage
+
+\listoftables
+\newpage
+
+% optional
+\section*{Abkürzungsverzeichnis}
+\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+
+\begin{tabular}{ll}
+BWL & Betriebswirtschaftslehre \\
+IT & Informationstechnologie \\
+AI & Artificial Intelligence \\
+\end{tabular}
+
+\newpage
+
+% -------------------------
+% Textteil
+% -------------------------
+\pagenumbering{arabic}
+
+\section{Einleitung}
+
+Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP‑Systeme angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind (vgl. Niedermeier, 2025, S.181–186).
+
+Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar: uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen (vgl. Gronau, 2017).
+Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als kritischer Erfolgsfaktor für ERP‑basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP‑Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können (vgl. Niedermeier, 2025, S.181–182).
+
+\subsection{Problemstellung}
+
+Im Lebensmitteleinzelhandel müssen Produktstammdaten wie Produktbezeichnungen, Herstellerinformationen, Zutatenlisten, Allergenkennzeichnungen, Nährwerttabellen und EAN/GTIN‑Barcodes kontinuierlich aktualisiert werden, da sie die Grundlage für zahlreiche betriebliche Prozesse darstellen. Die manuelle Erfassung dieser Informationen ist jedoch zeitintensiv, fehleranfällig und bindet erhebliche personelle Ressourcen. In der Praxis führt dies häufig zu inkonsistenten oder unvollständigen Datensätzen, redundanten Datenbeständen in unterschiedlichen Systemen sowie zu Übertragungsfehlern bei der Pflege und Aktualisierung der Informationen. Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP‑Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht (vgl. Niedermeier, 2025; Gronau, 2017). Gleichzeitig bieten offene Produktdatenbanken wie Open Food Facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern.
+
+\subsection{Zielsetzung der Arbeit}
+
+Ziel der vorliegenden Arbeit ist die Konzeption und prototypische Umsetzung einer End‑to‑End‑Systemarchitektur, die eine automatisierte Produkt‑ und Lagerdatenverarbeitung im ERP‑System Odoo ermöglicht. Der entwickelte Prototyp soll demonstrieren, wie Barcode‑Erfassung, API‑basierte Datenanreicherung und darauf aufbauende ERP‑Prozesse technisch miteinander verknüpft werden können, um die Qualität und Aktualität von Produktstammdaten signifikant zu verbessern.
+Im Mittelpunkt steht dabei die automatisierte Erfassung von Artikelbarcodes über geeignete Eingabegeräte, der anschließende Abruf und die Validierung externer Produktinformationen über die Open‑Food‑Facts‑API sowie die darauf basierende Erstellung oder Aktualisierung eines Produktstammsatzes innerhalb von Odoo. Darüber hinaus soll gezeigt werden, wie die angereicherten Daten in die Lagerprozesse des Inventory‑Moduls integriert werden können und wie sie nachgelagerte Verkaufsprozesse im Sales‑Modul unterstützen.
+Die Arbeit untersucht insgesamt, in welchem Ausmaß der Einsatz externer Datenquellen und teilautomatisierter Informationsflüsse dazu beiträgt, die Qualität des Stammdatenbestands zu erhöhen und zugleich die Prozesskosten in den Bereichen Produktanlage, Lagerverwaltung und Verkauf nachhaltig zu reduzieren.
+
+
+
+% ------------------------------------------------
+\section{Theoretische Grundlagen}
+
+Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind (vgl. Theisen, 2021, S. 136).
+
+\subsection{ERP-Systeme und Odoo}
+
+ERP-Systeme ermöglichen die integrierte Abbildung von Geschäftsprozessen und die zentrale Verwaltung betrieblicher Daten. Odoo ist ein modulares Open‑Source‑ERP-System mit integrierter PostgreSQL-Datenbank und über 30 Standardmodulen.
+
+Relevante Module für die vorliegende Arbeit sind:
+
+\begin{itemize}
+    \item \textbf{Inventory (Lagerverwaltung)} – Verwaltung von Beständen und Lagerbewegungen.
+    \item \textbf{Sales (Vertrieb)} – Auftragsabwicklung und Versandprozesse.
+    \item \textbf{Purchase (Einkauf)} – Bestell- und Beschaffungsprozesse.
+    \item \textbf{Barcode-Modul} – Verarbeitung gescannter Barcodes und Aktionen in Odoo.
+\end{itemize}
+
+\subsection{Barcodetechnologien}
+
+Barcodes (z. B. EAN‑13) sind standardisierte masschinenlesbare Produktkennzeichen. In der Lagerlogistik verbessern sie:
+
+\begin{itemize}
+    \item Identifikation von Artikeln,
+    \item Beschleunigung von Wareneingang und Inventur,
+    \item Reduktion manueller Fehler.
+\end{itemize}
+
+\subsection{Open‑Food‑Facts‑API}
+
+Open Food Facts ist eine offene, kollaborative Lebensmitteldatenbank. Die Produktinformationen werden über eine öffentlich zugängliche REST‑API bereitgestellt. Der API-Endpunkt für Barcodes lautet:
+
+\begin{verbatim}
+https://world.openfoodfacts.org/api/v0/product/{barcode}.json
+\end{verbatim}
+
+Die API liefert u.a.:
+
+\begin{itemize}
+    \item Produktname,
+    \item Zutaten und Allergene,
+    \item Nährwerttabellen,
+    \item Marken und Kategorien,
+    \item Bilder (Front, Ingredients, Nutrition).
+\end{itemize}
+
+% ------------------------------------------------
+\section{Anforderungsanalyse}
+
+Dieses Kapitel beschreibt funktionale und nichtfunktionale Anforderungen, die als Grundlage für die Implementierung dienen.
+
+\subsection{Funktionale Anforderungen}
+
+\begin{itemize}
+    \item Erfassung eines Barcodes über ein Endgerät.
+    \item Abfrage der Produktdaten über die Open‑Food‑Facts‑API.
+    \item Automatische Erstellung oder Aktualisierung eines Produkts in Odoo.
+    \item Zuordnung des Artikels zum Lagerbestand.
+    \item Unterstützung des Verkaufsprozesses (Sales-Modul).
+\end{itemize}
+
+\subsection{Nichtfunktionale Anforderungen}
+
+\begin{itemize}
+    \item Performante Verarbeitung von API-Antworten.
+    \item Fehlertoleranz bei nicht bekannten Barcodes.
+    \item Erweiterbarkeit für weitere Datenquellen.
+    \item Konsistente Datenhaltung im ERP-System.
+\end{itemize}
+
+% ------------------------------------------------
+\section{Technologie-Stack}
+
+\subsection{Architekturüberblick}
+
+Die Systemarchitektur folgt einem linearen Prozessfluss:
+
+\begin{enumerate}
+    \item Barcode-Eingabe.
+    \item API‑Request zu Open Food Facts.
+    \item Mapping der Daten auf Odoo‑Modelle.
+    \item Speicherung von Produkt und Lagerbestand.
+    \item Optional: Übergabe an Verkaufsprozesse.
+\end{enumerate}
+
+\subsection{Entwicklungsumgebung}
+
+Für die prototypische Implementierung werden folgende Komponenten genutzt:
+
+\begin{itemize}
+    \item Python 3.12,
+    \item Odoo 19 On‑Premise,
+    \item PostgreSQL 12+,
+    \item Odoo‑Custom‑Addon für API‑Integration.
+\end{itemize}
+
+% ------------------------------------------------
+\section{Implementierung der Kernfunktionen}
+
+Dieses Kapitel beschreibt wesentliche technische Komponenten des Prototyps.
+
+\subsection{Barcode-Workflow in Odoo}
+
+Das Barcode-Modul löst serverseitige Aktionen (Server Actions) aus, mit denen der gescannte Barcode vom ERP verarbeitet wird. Der Prozess umfasst:
+
+\begin{enumerate}
+    \item Empfangen des Barcodes als Eingabe,
+    \item Aufruf des Custom‑Addons,
+    \item Verarbeitung der API‑Antwort,
+    \item Erstellen/Aktualisieren eines Produktdatensatzes.
+\end{enumerate}
+
+\subsection{API‑Integration}
+
+Ein Python-Service ruft produktbezogene Daten ab:
+
+\begin{verbatim}
+GET /api/v0/product/{barcode}.json
+\end{verbatim}
+
+
+
+\begin{itemize}
+    \item \texttt{name} → Produktname
+    \item \texttt{nutrition\_facts} → Nährwerttabelle
+    \item \texttt{brands} → Hersteller
+\end{itemize}
+
+\subsection{Integration in Lager- und Verkaufsprozess}
+
+Sobald das Produkt existiert, wird es im Modul „Inventory“ automatisch verfügbar und kann:
+
+\begin{itemize}
+    \item in Wareneingängen verbucht werden,
+    \item durch Kommissionierung ausgelagert werden,
+    \item im „Sales“-Modul in Bestellungen überführt werden.
+\end{itemize}
+
+% ------------------------------------------------
+\section{Evaluation}
+
+Die Implementierung wurde anhand repräsentativer Testfälle geprüft, darunter:
+
+\begin{itemize}
+    \item bekannte und unbekannte Barcodes,
+    \item API‑Verfügbarkeit,
+    \item fehlerhafte Datenstrukturen,
+    \item doppelte Produkteinträge.
+\end{itemize}
+
+% ------------------------------------------------
+\section{Diskussion}
+
+Die prototypische Lösung zeigt, dass die automatische Anreicherung von Produktstammdaten die Datenqualität erhöhen und manuelle Pflegeprozesse reduzieren kann. Allerdings bestehen Abhängigkeiten von der API-Verfügbarkeit und der Datenqualität der Datenbank Open Food Facts.
+
+% ------------------------------------------------
+\section{Fazit und Ausblick}
+
+Die Arbeit demonstriert, dass eine automatisierte Stammdatenpflege im ERP-System Odoo durch Barcode‑Erfassung und API‑Integration technisch umsetzbar ist. Zukünftige Arbeiten könnten weitere Datenquellen integrieren, Bildanalysen ergänzen oder den Prozess vollständig mobile-first gestalten.
+
+% -------------------------
+% Literaturverzeichnis
+% -------------------------
+\newpage
+\printbibliography
+\addcontentsline{toc}{section}{Literaturverzeichnis}
+
+% -------------------------
+% Anhang
+% -------------------------
+\newpage
+\appendix
+\section{Anhang}
+
+Beispielmaterial, Datensätze, Fragebögen oder zusätzliche Tabellen.
+
+% -------------------------
+% KI-Verzeichnis (optional)
+% -------------------------
+\newpage
+\section*{KI-Hilfsmittelverzeichnis}
+\addcontentsline{toc}{section}{KI-Hilfsmittelverzeichnis}
+
+\begin{itemize}
+\item ChatGPT (OpenAI), Version X.X, Zugriff am TT.MM.JJJJ
+\end{itemize}
+
+% -------------------------
+% Eigenständigkeitserklärung
+% -------------------------
+\newpage
+\section*{Eigenständigkeitserklärung}
+\addcontentsline{toc}{section}{Eigenständigkeitserklärung}
+
+Hiermit wird versichert, dass die vorliegende Arbeit selbstständig und ohne unzulässige Hilfe angefertigt wurde. Alle verwendeten Quellen und Hilfsmittel wurden vollständig angegeben.
+
+\vspace{2cm}
+
+Ort, Datum \hfill Unterschrift
+
+\end{document}
