@@ -1,0 +1,463 @@
+\documentclass[12pt,a4paper]{article}
+
+% ---------------------------------------------------
+% GRUNDSPRACHE & SCHRIFT
+% ---------------------------------------------------
+\usepackage[ngerman]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+% ---------------------------------------------------
+% SEITENLAYOUT
+% ---------------------------------------------------
+\usepackage{geometry}
+\geometry{
+    left=4cm,
+    right=2cm,
+    top=4cm,
+    bottom=2cm,
+    headsep=20pt
+}
+
+% ---------------------------------------------------
+% FORMATIERUNG
+% ---------------------------------------------------
+\usepackage{setspace}
+\onehalfspacing
+
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+
+\usepackage{ragged2e}
+\justifying
+
+% automatische Silbentrennung aktiv lassen
+\pretolerance=100
+\tolerance=2000
+\emergencystretch=1em
+
+% ---------------------------------------------------
+% ÜBERSCHRIFTEN
+% ---------------------------------------------------
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+  {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+  {\thesubsubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+\titlespacing*{\subsubsection}{0pt}{12pt}{6pt}
+
+% Jedes Hauptkapitel auf neuer Seite
+\usepackage{etoolbox}
+\pretocmd{\section}{\clearpage}{}{}
+
+% ---------------------------------------------------
+% GRAFIKEN, TABELLEN, MATHE
+% ---------------------------------------------------
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{caption}
+
+\captionsetup{
+    font=normalsize,
+    labelfont=bf,
+    justification=raggedright,
+    singlelinecheck=false,
+    skip=6pt
+}
+
+% Tabellen- und Abbildungsüberschriften oben
+\captionsetup[table]{position=top}
+\captionsetup[figure]{position=top}
+
+% ---------------------------------------------------
+% CODE
+% ---------------------------------------------------
+\usepackage{listings}
+\renewcommand{\lstlistlistingname}{Codeverzeichnis}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    captionpos=t,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=8pt
+}
+
+% ---------------------------------------------------
+% ZITATE, LINKS, VERZEICHNISSE
+% ---------------------------------------------------
+\usepackage{csquotes}
+\usepackage[nottoc]{tocbibind}
+\usepackage{tocloft}
+\usepackage[hidelinks]{hyperref}
+
+% Inhaltsverzeichnis nur bis Ebene 2 anzeigen:
+% section und subsection, also z. B. 1 und 1.1
+\setcounter{tocdepth}{2}
+
+% Bezeichnung
+\renewcommand{\contentsname}{Inhaltsverzeichnis}
+
+% Überschrift des Inhaltsverzeichnisses wie im FOM-Beispiel:
+% linksbündig, fett, 12 pt
+\renewcommand{\cfttoctitlefont}{\normalfont\bfseries\fontsize{12}{14}\selectfont}
+\renewcommand{\cftaftertoctitle}{\par\vspace{12pt}}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{12pt}
+
+% Überschriften von Abbildungs- und Tabellenverzeichnis ebenfalls 12 pt fett
+\renewcommand{\cftloftitlefont}{\normalfont\bfseries\fontsize{12}{14}\selectfont}
+\renewcommand{\cftlottitlefont}{\normalfont\bfseries\fontsize{12}{14}\selectfont}
+\setlength{\cftbeforeloftitleskip}{0pt}
+\setlength{\cftbeforelottitleskip}{0pt}
+\setlength{\cftafterloftitleskip}{12pt}
+\setlength{\cftafterlottitleskip}{12pt}
+
+% Schrift der Einträge im Inhaltsverzeichnis:
+% normal, nicht fett
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\cftsubsecpagefont}{\normalfont}
+
+\renewcommand{\cftsubsubsecfont}{\normalfont}
+\renewcommand{\cftsubsubsecpagefont}{\normalfont}
+
+% Punktlinien bis zur Seitenzahl für alle Ebenen
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftdotsep}{1}
+
+% Einzüge wie im FOM-Beispiel
+\setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{1.5em}
+\setlength{\cftsubsubsecindent}{3.0em}
+
+% Breite der Nummernspalten
+\setlength{\cftsecnumwidth}{2.2em}
+\setlength{\cftsubsecnumwidth}{2.8em}
+\setlength{\cftsubsubsecnumwidth}{3.4em}
+
+% Abstand zwischen den Einträgen im Inhaltsverzeichnis
+\setlength{\cftbeforesecskip}{6pt}
+\setlength{\cftbeforesubsecskip}{3pt}
+\setlength{\cftbeforesubsubsecskip}{3pt}
+\setlength{\cftparskip}{0pt}
+
+% Abstand rechts für Seitenzahlen
+
+% ---------------------------------------------------
+% KOPF-/FUSSZEILEN
+% ---------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[C]{\thepage}
+\setlength{\headheight}{15pt}
+
+% Seitenzahlen auch auf Verzeichnisseiten oben
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyhead[C]{\thepage}
+}
+
+% ---------------------------------------------------
+% LITERATUR
+% ---------------------------------------------------
+\usepackage[
+backend=biber,
+style=authoryear,
+citestyle=authoryear,
+sorting=nyt,
+maxcitenames=2,
+maxbibnames=99,
+giveninits=true,
+uniquename=false,
+uniquelist=false,
+doi=false,
+isbn=false,
+url=true
+]{biblatex}
+
+\addbibresource{literatur.bib}
+
+\DefineBibliographyStrings{ngerman}{
+  andothers = {et al.},
+  page = {S.},
+  pages = {S.}
+}
+
+\renewcommand*{\postnotedelim}{\addcomma\space}
+
+% ---------------------------------------------------
+% DOKUMENTBEGINN
+% ---------------------------------------------------
+\begin{document}
+
+% ---------------------------------------------------
+% TITELBLATT
+% ---------------------------------------------------
+\begin{titlepage}
+\begin{center}
+
+    \includegraphics[width=4cm]{FOM_Logo01_2012_rgb.jpg} \\[0.5cm]
+
+    \textbf{FOM Hochschule für Oekonomie \& Management} \\
+    Hochschulzentrum Bonn \\[1.0cm]
+
+    {\Large Berufsbegleitender Studiengang Wirtschaftsinformatik} \\[0.2cm]
+    zum \\[0.2cm]
+    Bachelor of Science (B.Sc.) \\[0.2cm]
+    6. Semester \\[1.5cm]
+
+    Seminararbeit im Modul ERP-Systeme zum Thema \\[1.0cm]
+
+    {\Large\textbf{End-to-End-Automatisierung von Produkt- und Lagerprozessen in Odoo}} \\[1.5cm]
+
+\end{center}
+
+\vfill
+
+\begin{flushleft}
+\begin{tabular}{@{}ll@{}}
+Dozent: & Dipl. Ing. Sandro Coletta \\
+Name: & Lorenz Chylka, Leonard Reglin \\
+Matrikelnummer: & 736986, 740270 \\
+Studiengang: & Wirtschaftsinformatik \\
+Semester: & 6. Semester \\
+Abgabedatum: & TT.MM.JJJJ \\
+Wörter Hausarbeit: & XXX \\
+Wörter Code: & XXX \\
+\end{tabular}
+\end{flushleft}
+
+\end{titlepage}
+
+% ---------------------------------------------------
+% VERZEICHNISSE: RÖMISCHE SEITENZAHLEN
+% ---------------------------------------------------
+\pagenumbering{Roman}
+\setcounter{page}{2}
+
+\tableofcontents
+\newpage
+
+\listoffigures
+\newpage
+
+\listoftables
+\newpage
+
+\section*{Abkürzungsverzeichnis}
+\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+
+\begin{tabular}{@{}ll@{}}
+AI & Artificial Intelligence \\
+API & Application Programming Interface \\
+BWL & Betriebswirtschaftslehre \\
+EAN & European Article Number \\
+ERP & Enterprise Resource Planning \\
+GTIN & Global Trade Item Number \\
+IT & Informationstechnologie \\
+REST & Representational State Transfer \\
+\end{tabular}
+
+% ---------------------------------------------------
+% TEXTTEIL: ARABISCHE SEITENZAHLEN
+% ---------------------------------------------------
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Einleitung}
+
+Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind \parencite[vgl.][]{krcmar2022}.
+
+Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar: uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen \parencite[vgl.][]{gronau2017}. Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können \parencite[vgl.][]{lausen2020}.
+
+ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden \parencite[vgl.][]{davenport1998}. Insbesondere im Bereich des Bestands- und Lagermanagements tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten \parencite[vgl.][]{romney2018}.
+
+Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und fördern die bereichsübergreifende Zusammenarbeit innerhalb der Supply Chain. Studien zeigen, dass der Einsatz von ERP-Systemen signifikant zur Verbesserung der operativen Effizienz beitragen kann, da Prozesse besser koordiniert und Informationsflüsse optimiert werden \parencite[vgl.][]{chopra2016}. Insbesondere durch die Automatisierung wiederkehrender Aufgaben und die Integration verschiedener Unternehmensbereiche können Fehlerquellen reduziert und Entscheidungsprozesse beschleunigt werden \parencite[vgl.][]{chang2014}.
+
+Im Kontext der Lagerlogistik spielt die Qualität von Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Kommissionierungsprozessen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen hier eine präzisere Steuerung von Beständen sowie eine bessere Nachverfolgbarkeit von Warenströmen \parencite[vgl.][]{chopra2016}.
+
+Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung von Produktinformationen. Offene Datenbanken wie Open Food Facts stellen strukturierte und maschinenlesbare Produktdaten bereit, die über standardisierte Schnittstellen (APIs) abgerufen werden können. Diese Entwicklung eröffnet neue Möglichkeiten zur Automatisierung der Stammdatenpflege und zur Reduktion manueller Eingaben, wodurch sowohl die Datenqualität als auch die Prozesseffizienz nachhaltig verbessert werden können.
+
+\subsection{Problemstellung}
+
+Im Lebensmitteleinzelhandel müssen Produktstammdaten wie Produktbezeichnungen, Herstellerinformationen, Zutatenlisten, Allergenkennzeichnungen, Nährwerttabellen und EAN/GTIN-Barcodes kontinuierlich aktualisiert werden, da sie die Grundlage für zahlreiche betriebliche Prozesse darstellen. Die manuelle Erfassung dieser Informationen ist jedoch zeitintensiv, fehleranfällig und bindet erhebliche personelle Ressourcen. In der Praxis führt dies häufig zu inkonsistenten oder unvollständigen Datensätzen, redundanten Datenbeständen in unterschiedlichen Systemen sowie zu Übertragungsfehlern bei der Pflege und Aktualisierung der Informationen.
+
+Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht (vgl. Niedermeier, 2025; Gronau, 2017). Gleichzeitig bieten offene Produktdatenbanken wie Open Food Facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern.
+
+\subsection{Zielsetzung der Arbeit}
+
+Ziel der vorliegenden Arbeit ist die Konzeption und prototypische Umsetzung einer End-to-End-Systemarchitektur, die eine automatisierte Produkt- und Lagerdatenverarbeitung im ERP-System Odoo ermöglicht. Der entwickelte Prototyp soll demonstrieren, wie Barcode-Erfassung, API-basierte Datenanreicherung und darauf aufbauende ERP-Prozesse technisch miteinander verknüpft werden können, um die Qualität und Aktualität von Produktstammdaten signifikant zu verbessern.
+
+Im Mittelpunkt steht dabei die automatisierte Erfassung von Artikelbarcodes über geeignete Eingabegeräte, der anschließende Abruf und die Validierung externer Produktinformationen über die Open-Food-Facts-API sowie die darauf basierende Erstellung oder Aktualisierung eines Produktstammsatzes innerhalb von Odoo. Darüber hinaus soll gezeigt werden, wie die angereicherten Daten in die Lagerprozesse des Inventory-Moduls integriert werden können und wie sie nachgelagerte Verkaufsprozesse im Sales-Modul unterstützen.
+
+Die Arbeit untersucht insgesamt, in welchem Ausmaß der Einsatz externer Datenquellen und teilautomatisierter Informationsflüsse dazu beiträgt, die Qualität des Stammdatenbestands zu erhöhen und zugleich die Prozesskosten in den Bereichen Produktanlage, Lagerverwaltung und Verkauf nachhaltig zu reduzieren.
+
+\section{Theoretische Grundlagen}
+
+Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind (vgl. Theisen, 2021, S. 136).
+
+\subsection{ERP-Systeme und Odoo}
+
+ERP-Systeme ermöglichen die integrierte Abbildung von Geschäftsprozessen und die zentrale Verwaltung betrieblicher Daten. Odoo ist ein modulares Open-Source-ERP-System mit integrierter PostgreSQL-Datenbank und über 30 Standardmodulen.
+
+Relevante Module für die vorliegende Arbeit sind:
+
+\begin{itemize}
+    \item \textbf{Inventory (Lagerverwaltung)} -- Verwaltung von Beständen und Lagerbewegungen.
+    \item \textbf{Sales (Vertrieb)} -- Auftragsabwicklung und Versandprozesse.
+    \item \textbf{Purchase (Einkauf)} -- Bestell- und Beschaffungsprozesse.
+    \item \textbf{Barcode-Modul} -- Verarbeitung gescannter Barcodes und Aktionen in Odoo.
+\end{itemize}
+
+\subsection{Barcodetechnologien}
+
+Barcodes, beispielsweise EAN-13, sind standardisierte maschinenlesbare Produktkennzeichen. In der Lagerlogistik verbessern sie die Identifikation von Artikeln, die Beschleunigung von Wareneingang und Inventur sowie die Reduktion manueller Fehler.
+
+\subsection{Open-Food-Facts-API}
+
+Open Food Facts ist eine offene, kollaborative Lebensmitteldatenbank. Die Produktinformationen werden über eine öffentlich zugängliche REST-API bereitgestellt. Der API-Endpunkt für Barcodes lautet:
+
+\begin{lstlisting}[caption={API-Endpunkt für Produktabfragen über Barcode}]
+https://world.openfoodfacts.org/api/v0/product/{barcode}.json
+\end{lstlisting}
+
+Die API liefert unter anderem Produktnamen, Zutaten und Allergene, Nährwerttabellen, Marken, Kategorien sowie Produktbilder.
+
+\section{Anforderungsanalyse}
+
+Dieses Kapitel beschreibt funktionale und nichtfunktionale Anforderungen, die als Grundlage für die Implementierung dienen.
+
+\subsection{Funktionale Anforderungen}
+
+\begin{itemize}
+    \item Erfassung eines Barcodes über ein Endgerät.
+    \item Abfrage der Produktdaten über die Open-Food-Facts-API.
+    \item Automatische Erstellung oder Aktualisierung eines Produkts in Odoo.
+    \item Zuordnung des Artikels zum Lagerbestand.
+    \item Unterstützung des Verkaufsprozesses im Sales-Modul.
+\end{itemize}
+
+\subsection{Nichtfunktionale Anforderungen}
+
+\begin{itemize}
+    \item Performante Verarbeitung von API-Antworten.
+    \item Fehlertoleranz bei nicht bekannten Barcodes.
+    \item Erweiterbarkeit für weitere Datenquellen.
+    \item Konsistente Datenhaltung im ERP-System.
+\end{itemize}
+
+\section{Technologie-Stack}
+
+Dieses Kapitel beschreibt die technische Grundlage des Prototyps. Dabei werden sowohl die Architektur als auch die verwendete Entwicklungsumgebung dargestellt.
+
+\subsection{Architekturüberblick}
+
+Die Systemarchitektur folgt einem linearen Prozessfluss:
+
+\begin{enumerate}
+    \item Barcode-Eingabe.
+    \item API-Request zu Open Food Facts.
+    \item Mapping der Daten auf Odoo-Modelle.
+    \item Speicherung von Produkt und Lagerbestand.
+    \item Optionale Übergabe an Verkaufsprozesse.
+\end{enumerate}
+
+\subsection{Entwicklungsumgebung}
+
+Für die prototypische Implementierung werden folgende Komponenten genutzt:
+
+\begin{itemize}
+    \item Python 3.12,
+    \item Odoo 19 On-Premise,
+    \item PostgreSQL 12+,
+    \item Odoo-Custom-Addon für API-Integration.
+\end{itemize}
+
+\section{Implementierung der Kernfunktionen}
+
+Dieses Kapitel beschreibt wesentliche technische Komponenten des Prototyps. Der Schwerpunkt liegt auf dem Barcode-Workflow, der API-Integration sowie der Einbindung in Lager- und Verkaufsprozesse.
+
+\subsection{Barcode-Workflow in Odoo}
+
+Das Barcode-Modul löst serverseitige Aktionen aus, mit denen der gescannte Barcode vom ERP-System verarbeitet wird. Der Prozess umfasst das Empfangen des Barcodes als Eingabe, den Aufruf des Custom-Addons, die Verarbeitung der API-Antwort sowie das Erstellen oder Aktualisieren eines Produktdatensatzes.
+
+\subsection{API-Integration}
+
+Ein Python-Service ruft produktbezogene Daten ab:
+
+\begin{lstlisting}[caption={Produktbezogene API-Abfrage}]
+GET /api/v0/product/{barcode}.json
+\end{lstlisting}
+
+Die relevanten Datenfelder werden anschließend auf die entsprechenden Odoo-Modelle übertragen. Dazu gehören insbesondere Produktname, Herstellerinformationen und Nährwertdaten.
+
+\subsection{Integration in Lager- und Verkaufsprozess}
+
+Sobald das Produkt existiert, wird es im Modul Inventory verfügbar und kann in Wareneingängen verbucht, durch Kommissionierung ausgelagert oder im Sales-Modul in Bestellungen überführt werden.
+
+\section{Evaluation}
+
+Die Implementierung wurde anhand repräsentativer Testfälle geprüft. Dazu zählen bekannte und unbekannte Barcodes, API-Verfügbarkeit, fehlerhafte Datenstrukturen und doppelte Produkteinträge.
+
+\section{Diskussion}
+
+Die prototypische Lösung zeigt, dass die automatische Anreicherung von Produktstammdaten die Datenqualität erhöhen und manuelle Pflegeprozesse reduzieren kann. Allerdings bestehen Abhängigkeiten von der API-Verfügbarkeit und der Datenqualität der Datenbank Open Food Facts.
+
+\section{Fazit und Ausblick}
+
+Die Arbeit demonstriert, dass eine automatisierte Stammdatenpflege im ERP-System Odoo durch Barcode-Erfassung und API-Integration technisch umsetzbar ist. Zukünftige Arbeiten könnten weitere Datenquellen integrieren, Bildanalysen ergänzen oder den Prozess vollständig mobile-first gestalten.
+
+% ---------------------------------------------------
+% CODEVERZEICHNIS
+% ---------------------------------------------------
+\newpage
+\phantomsection
+\addcontentsline{toc}{section}{Codeverzeichnis}
+\lstlistoflistings
+
+% ---------------------------------------------------
+% LITERATURVERZEICHNIS
+% ---------------------------------------------------
+\newpage
+\printbibliography[heading=bibintoc, title={Literaturverzeichnis}]
+
+% ---------------------------------------------------
+% KI-HILFSMITTELVERZEICHNIS
+% ---------------------------------------------------
+\newpage
+\section*{KI-Hilfsmittelverzeichnis}
+\addcontentsline{toc}{section}{KI-Hilfsmittelverzeichnis}
+
+\begin{tabular}{@{}p{1cm}p{4cm}p{9.5cm}@{}}
+\toprule
+\textbf{Nr.} & \textbf{KI-System} & \textbf{Einsatzzweck} \\ 
+\midrule
+1 & Google Gemini, Version X.X, Zugriff am TT.MM.JJJJ & Unterstützung bei der Formulierung von Textentwürfen zur Einleitung und zu konzeptionellen Grundlagen. Die übernommenen Inhalte wurden fachlich geprüft und überarbeitet. \\
+2 & ChatGPT, Version X.X, Zugriff am TT.MM.JJJJ & Unterstützung bei der formalen Strukturierung der LaTeX-Vorlage nach dem FOM-Leitfaden. \\
+\bottomrule
+\end{tabular}
+
+\end{document}
