@@ -61,7 +61,7 @@ Barcode scannen
 ### 1. Repository clonen / im Verzeichnis navigieren
 
 ```powershell
-cd C:\playground\ERP\odoo
+cd D:\ERP-System\odoo
 ```
 
 ### 2. Python Virtual Environment erstellen
@@ -93,7 +93,7 @@ db_user = openpg
 db_password = openpgpwd
 http_interface = 127.0.0.1
 http_port = 8069
-addons_path = C:\playground\ERP\odoo\addons
+addons_path = D:\ERP-System\odoo\addons
 ```
 
 Falls nicht vorhanden, wird sie automatisch beim ersten Start erstellt.
@@ -101,7 +101,7 @@ Falls nicht vorhanden, wird sie automatisch beim ersten Start erstellt.
 ### 5. Datenbank initialisieren (nur beim ersten Mal)
 
 ```powershell
-cd C:\playground\ERP\odoo
+cd D:\ERP-System\odoo
 .\.venv\Scripts\python.exe odoo-bin -c odoo.conf -d erp_dev -i base --stop-after-init
 ```
 
@@ -110,7 +110,7 @@ Das installiert das base-Modul und erstellt alle notwendigen Tabellen. Dauer: ~3
 ### 6. Odoo starten
 
 ```powershell
-cd C:\playground\ERP\odoo
+cd D:\ERP-System\odoo
 .\.venv\Scripts\python.exe odoo-bin -c odoo.conf -d erp_dev
 ```
 
