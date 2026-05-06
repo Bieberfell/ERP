@@ -138,11 +138,53 @@
 \renewcommand{\cftsubsubsecfont}{\normalfont}
 \renewcommand{\cftsubsubsecpagefont}{\normalfont}
 
-% Punktlinien bis zur Seitenzahl für alle Ebenen
-\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
-\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
-\renewcommand{\cftdotsep}{1}
+% ---------------------------------------------------
+% Punktlinien direkt wie: Eintrag........................................7
+% ---------------------------------------------------
+\makeatletter
+
+% Sehr enge Punktreihe ohne Zusatzabstände
+\newcommand{\tocdirectdots}{%
+  \nobreak
+  \leaders\hbox{.}\hfill
+  \nobreak
+}
+
+% Punktreihen im Inhaltsverzeichnis
+\renewcommand{\cftsecleader}{\tocdirectdots}
+\renewcommand{\cftsubsecleader}{\tocdirectdots}
+\renewcommand{\cftsubsubsecleader}{\tocdirectdots}
+
+% Punktreihen im Abbildungs- und Tabellenverzeichnis
+\renewcommand{\cftfigleader}{\tocdirectdots}
+\renewcommand{\cfttableader}{\tocdirectdots}
+
+% Seitenzahlen ohne feste Box direkt hinter den Punkten
+\renewcommand{\cftsecfillnum}[1]{%
+  {\cftsecleader}{\cftsecpagefont #1}\cftsecafterpnum\par
+}
+
+\renewcommand{\cftsubsecfillnum}[1]{%
+  {\cftsubsecleader}{\cftsubsecpagefont #1}\cftsubsecafterpnum\par
+}
+
+\renewcommand{\cftsubsubsecfillnum}[1]{%
+  {\cftsubsubsecleader}{\cftsubsubsecpagefont #1}\cftsubsubsecafterpnum\par
+}
+
+\renewcommand{\cftfigfillnum}[1]{%
+  {\cftfigleader}{\cftfigpagefont #1}\cftfigafterpnum\par
+}
+
+\renewcommand{\cfttabfillnum}[1]{%
+  {\cfttableader}{\cfttabpagefont #1}\cfttabafterpnum\par
+}
+
+\makeatother
+
+% rechter Rand für Seitenzahlen
+\cftsetpnumwidth{0pt}
+\cftsetrmarg{0pt}
 
 % Einzüge wie im FOM-Beispiel
 \setlength{\cftsecindent}{0pt}
@@ -159,8 +201,6 @@
 \setlength{\cftbeforesubsecskip}{3pt}
 \setlength{\cftbeforesubsubsecskip}{3pt}
 \setlength{\cftparskip}{0pt}
-
-% Abstand rechts für Seitenzahlen
 
 % ---------------------------------------------------
 % KOPF-/FUSSZEILEN
