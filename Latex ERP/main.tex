@@ -223,8 +223,9 @@
 % LITERATUR
 % ---------------------------------------------------
 \usepackage[
-authordate,
 backend=biber,
+style=authoryear,
+autocite=footnote,
 sorting=nyt,
 maxcitenames=2,
 maxbibnames=99,
@@ -234,7 +235,7 @@ uniquelist=false,
 doi=false,
 isbn=false,
 url=true
-]{biblatex-chicago}
+]{biblatex}
 
 \addbibresource{literatur.bib}
 
@@ -328,15 +329,15 @@ REST & Representational State Transfer \\
 
 \section{Einleitung}
 
-Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind \parencite[vgl.][]{krcmar2022}.
+Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind \autocite[vgl.][]{krcmar2022}.
 
-Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar: uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen \parencite[vgl.][]{gronau2017}. Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können \parencite[vgl.][]{lausen2020}.
+Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar: uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen \autocite[vgl.][]{gronau2017}. Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können \autocite[vgl.][]{lausen2020}.
 
-ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden \parencite[vgl.][]{davenport1998}. Insbesondere im Bereich des Bestands- und Lagermanagements tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten \parencite[vgl.][]{romney2018}.
+ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden \autocite[vgl.][]{davenport1998}. Insbesondere im Bereich des Bestands- und Lagermanagements tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten \autocite[vgl.][]{romney2018}.
 
-Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und fördern die bereichsübergreifende Zusammenarbeit innerhalb der Supply Chain. Studien zeigen, dass der Einsatz von ERP-Systemen signifikant zur Verbesserung der operativen Effizienz beitragen kann, da Prozesse besser koordiniert und Informationsflüsse optimiert werden \parencite[vgl.][]{chopra2016}. Insbesondere durch die Automatisierung wiederkehrender Aufgaben und die Integration verschiedener Unternehmensbereiche können Fehlerquellen reduziert und Entscheidungsprozesse beschleunigt werden \parencite[vgl.][]{chang2014}.
+Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und fördern die bereichsübergreifende Zusammenarbeit innerhalb der Supply Chain. Studien zeigen, dass der Einsatz von ERP-Systemen signifikant zur Verbesserung der operativen Effizienz beitragen kann, da Prozesse besser koordiniert und Informationsflüsse optimiert werden \autocite[vgl.][]{chopra2016}. Insbesondere durch die Automatisierung wiederkehrender Aufgaben und die Integration verschiedener Unternehmensbereiche können Fehlerquellen reduziert und Entscheidungsprozesse beschleunigt werden \autocite[vgl.][]{chang2014}.
 
-Im Kontext der Lagerlogistik spielt die Qualität von Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Kommissionierungsprozessen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen hier eine präzisere Steuerung von Beständen sowie eine bessere Nachverfolgbarkeit von Warenströmen \parencite[vgl.][]{chopra2016}.
+Im Kontext der Lagerlogistik spielt die Qualität von Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Kommissionierungsprozessen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen hier eine präzisere Steuerung von Beständen sowie eine bessere Nachverfolgbarkeit von Warenströmen \autocite[vgl.][]{chopra2016}.
 
 Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung von Produktinformationen. Offene Datenbanken wie Open Food Facts stellen strukturierte und maschinenlesbare Produktdaten bereit, die über standardisierte Schnittstellen (APIs) abgerufen werden können. Diese Entwicklung eröffnet neue Möglichkeiten zur Automatisierung der Stammdatenpflege und zur Reduktion manueller Eingaben, wodurch sowohl die Datenqualität als auch die Prozesseffizienz nachhaltig verbessert werden können.
 
