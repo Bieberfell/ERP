@@ -301,6 +301,13 @@ Wörter Code: & XXX \\
 \newpage
 
 \listoffigures
+\section*{KI-Nutzung}
+\addcontentsline{toc}{section}{KI-Nutzung}
+
+In dieser wissenschaftlichen Arbeit wurden zur sprachlichen Unterstützung bei der Erstellung des Textes KI-Modelle eingesetzt. Insbesondere wurden ChatGPT und DeepL zur Verbesserung der Grammatik, Struktur, Rechtschreibung und Lesbarkeit verwendet. Die inhaltliche Konzeption, Argumentation und jedwede Schlussfolgerungen liegen jedoch vollständig in der Verantwortung des Autors. Sollten Fremdwerke verwendet worden sein, sind diese entsprechend durch Fußnoten gekennzeichnet.
+\section{Geschlechterinklusive Sprache} 
+\addcontentsline{toc}{section}{Geschlechterinklusive Sprache}
+In diesem Text wird aus Gründen der Lesbarkeit und Tradition häufig die maskuline Form verwendet. Dennoch sei betont, dass sich alle Ausführungen und Bezeichnungen geschlechtsübergreifend auf Personen aller Geschlechteridentitäten beziehen. Die Wahl der sprachlichen Form soll in keinem Fall als Ausschluss oder Diskriminierung anderer Geschlechter verstanden werden.
 \newpage
 
 \listoftables
@@ -310,9 +317,7 @@ Wörter Code: & XXX \\
 \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
 
 \begin{tabular}{@{}ll@{}}
-AI & Artificial Intelligence \\
 API & Application Programming Interface \\
-BWL & Betriebswirtschaftslehre \\
 EAN & European Article Number \\
 ERP & Enterprise Resource Planning \\
 GTIN & Global Trade Item Number \\
@@ -329,7 +334,7 @@ REST & Representational State Transfer \\
 
 \section{Einleitung}
 
-Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind \autocite[vgl.][]{krcmar2022}.
+Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme (Enterprise Resource Planning) angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind \autocite[vgl.][]{krcmar2022}.
 
 Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar: uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen \autocite[vgl.][]{gronau2017}. Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können \autocite[vgl.][]{lausen2020}.
 
@@ -339,11 +344,11 @@ Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und
 
 Im Kontext der Lagerlogistik spielt die Qualität von Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Kommissionierungsprozessen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen hier eine präzisere Steuerung von Beständen sowie eine bessere Nachverfolgbarkeit von Warenströmen \autocite[vgl.][]{chopra2016}.
 
-Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung von Produktinformationen. Offene Datenbanken wie Open Food Facts stellen strukturierte und maschinenlesbare Produktdaten bereit, die über standardisierte Schnittstellen (APIs) abgerufen werden können. Diese Entwicklung eröffnet neue Möglichkeiten zur Automatisierung der Stammdatenpflege und zur Reduktion manueller Eingaben, wodurch sowohl die Datenqualität als auch die Prozesseffizienz nachhaltig verbessert werden können.
+Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung von Produktinformationen. Offene Datenbanken wie Open Food Facts stellen strukturierte und maschinenlesbare Produktdaten bereit, die über standardisierte Schnittstellen, sogenannte API's (Application Programming Interface), abgerufen werden können. Diese Entwicklung eröffnet neue Möglichkeiten zur Automatisierung der Stammdatenpflege und zur Reduktion manueller Eingaben, wodurch sowohl die Datenqualität als auch die Prozesseffizienz nachhaltig verbessert werden können.
 
 \subsection{Problemstellung}
 
-Im Lebensmitteleinzelhandel müssen Produktstammdaten wie Produktbezeichnungen, Herstellerinformationen, Zutatenlisten, Allergenkennzeichnungen, Nährwerttabellen und EAN/GTIN-Barcodes kontinuierlich aktualisiert werden, da sie die Grundlage für zahlreiche betriebliche Prozesse darstellen. Die manuelle Erfassung dieser Informationen ist jedoch zeitintensiv, fehleranfällig und bindet erhebliche personelle Ressourcen. In der Praxis führt dies häufig zu inkonsistenten oder unvollständigen Datensätzen, redundanten Datenbeständen in unterschiedlichen Systemen sowie zu Übertragungsfehlern bei der Pflege und Aktualisierung der Informationen.
+Im Lebensmitteleinzelhandel müssen Produktstammdaten wie Produktbezeichnungen, Herstellerinformationen, Zutatenlisten, Allergenkennzeichnungen, Nährwerttabellen sowie EAN- und GTIN-Barcodes (EAN: European Article Number; GTIN: Global Trade Item Number) kontinuierlich aktualisiert werden, da sie die Grundlage für zahlreiche betriebliche Prozesse bilden. Die manuelle Erfassung dieser Informationen ist jedoch zeitintensiv, fehleranfällig und bindet erhebliche personelle Ressourcen. In der Praxis führt dies häufig zu inkonsistenten oder unvollständigen Datensätzen, redundanten Datenbeständen in unterschiedlichen Systemen sowie zu Übertragungsfehlern bei der Pflege und Aktualisierung der Informationen.
 
 Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht (vgl. Niedermeier, 2025; Gronau, 2017). Gleichzeitig bieten offene Produktdatenbanken wie Open Food Facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern.
 
@@ -498,6 +503,6 @@ Die Arbeit demonstriert, dass eine automatisierte Stammdatenpflege im ERP-System
 1 & Google Gemini, Version X.X, Zugriff am TT.MM.JJJJ & Unterstützung bei der Formulierung von Textentwürfen zur Einleitung und zu konzeptionellen Grundlagen. Die übernommenen Inhalte wurden fachlich geprüft und überarbeitet. \\
 2 & ChatGPT, Version X.X, Zugriff am TT.MM.JJJJ & Unterstützung bei der formalen Strukturierung der LaTeX-Vorlage nach dem FOM-Leitfaden. \\
 \bottomrule
-\end{tabular}
+\end{tabular} 
 
 \end{document}
