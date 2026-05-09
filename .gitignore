@@ -1,5 +1,6 @@
 .venv312/
 .vscode/
+_pgdata/
 
 # LaTeX build artifacts
 Latex\ ERP/*.aux
