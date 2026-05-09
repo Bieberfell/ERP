@@ -35,7 +35,6 @@ Latex\ ERP/*.toc
 *.fdb_latexmk
 *.fls
 *.lof
-*.log
 *.lot
 *.lol
 *.out
