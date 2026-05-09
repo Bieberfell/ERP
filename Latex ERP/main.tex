@@ -360,11 +360,11 @@ Im Mittelpunkt steht dabei die automatisierte Erfassung von Artikelbarcodes übe
 
 Die Arbeit untersucht insgesamt, in welchem Ausmaß der Einsatz externer Datenquellen und teilautomatisierter Informationsflüsse dazu beiträgt, die Qualität des Stammdatenbestands zu erhöhen und zugleich die Prozesskosten in den Bereichen Produktanlage, Lagerverwaltung und Verkauf nachhaltig zu reduzieren.
 
-\section{Theoretische Grundlagen}
+\section{Grundlagen}
 
 Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind (vgl. Theisen, 2021, S. 136).
 
-\subsection{ERP-Systeme und Odoo}
+\subsection{ERP-Systeme und Produktstammdaten}
 
 ERP-Systeme ermöglichen die integrierte Abbildung von Geschäftsprozessen und die zentrale Verwaltung betrieblicher Daten. Odoo ist ein modulares Open-Source-ERP-System mit integrierter PostgreSQL-Datenbank und über 30 Standardmodulen.
 
@@ -377,11 +377,11 @@ Relevante Module für die vorliegende Arbeit sind:
     \item \textbf{Barcode-Modul} -- Verarbeitung gescannter Barcodes und Aktionen in Odoo.
 \end{itemize}
 
-\subsection{Barcodetechnologien}
+\subsection{Barcodes und Produktidentifikation}
 
 Barcodes, beispielsweise EAN-13, sind standardisierte maschinenlesbare Produktkennzeichen. In der Lagerlogistik verbessern sie die Identifikation von Artikeln, die Beschleunigung von Wareneingang und Inventur sowie die Reduktion manueller Fehler.
 
-\subsection{Open-Food-Facts-API}
+\subsection{Schnittstellen und Open-Food-Facts-API}
 
 Open Food Facts ist eine offene, kollaborative Lebensmitteldatenbank. Die Produktinformationen werden über eine öffentlich zugängliche REST-API bereitgestellt. Der API-Endpunkt für Barcodes lautet:
 
@@ -391,11 +391,11 @@ https://world.openfoodfacts.org/api/v0/product/{barcode}.json
 
 Die API liefert unter anderem Produktnamen, Zutaten und Allergene, Nährwerttabellen, Marken, Kategorien sowie Produktbilder.
 
-\section{Anforderungsanalyse}
+\section{Konzeption und Umsetzung des Barcode-API-Submoduls}
 
 Dieses Kapitel beschreibt funktionale und nichtfunktionale Anforderungen, die als Grundlage für die Implementierung dienen.
 
-\subsection{Funktionale Anforderungen}
+\subsection{Anforderungen an das Submodul}
 
 \begin{itemize}
     \item Erfassung eines Barcodes über ein Endgerät.
@@ -414,23 +414,23 @@ Dieses Kapitel beschreibt funktionale und nichtfunktionale Anforderungen, die al
     \item Konsistente Datenhaltung im ERP-System.
 \end{itemize}
 
-\section{Technologie-Stack}
+\section{Odoo als Systembasis}
 
-Dieses Kapitel beschreibt die technische Grundlage des Prototyps. Dabei werden sowohl die Architektur als auch die verwendete Entwicklungsumgebung dargestellt.
+Dieses Kapitel beschreibt die Rolle von Odoo als Basis für Produkt- und Lagerprozesse sowie die Erweiterung durch ein Custom-Addon.
 
-\subsection{Architekturüberblick}
+\subsection{Produkt- und Lagerverwaltung in Odoo}
 
-Die Systemarchitektur folgt einem linearen Prozessfluss:
+Die Systemarchitektur und die Prozesse in Odoo bilden die Grundlage für die Produkt- und Lagerverwaltung. Zentrale Aspekte sind die Abbildung von Produktstammdaten, Lagerbewegungen und deren Integration in Verkaufsprozesse.
 
 \begin{enumerate}
-    \item Barcode-Eingabe.
-    \item API-Request zu Open Food Facts.
-    \item Mapping der Daten auf Odoo-Modelle.
-    \item Speicherung von Produkt und Lagerbestand.
-    \item Optionale Übergabe an Verkaufsprozesse.
+  \item Barcode-Eingabe.
+  \item API-Request zu Open Food Facts.
+  \item Mapping der Daten auf Odoo-Modelle.
+  \item Speicherung von Produkt und Lagerbestand.
+  \item Optionale Übergabe an Verkaufsprozesse.
 \end{enumerate}
 
-\subsection{Entwicklungsumgebung}
+\subsection{Erweiterung durch ein Custom-Submodul}
 
 Für die prototypische Implementierung werden folgende Komponenten genutzt:
 
@@ -441,15 +441,15 @@ Für die prototypische Implementierung werden folgende Komponenten genutzt:
     \item Odoo-Custom-Addon für API-Integration.
 \end{itemize}
 
-\section{Implementierung der Kernfunktionen}
+\section{Konzeption und Umsetzung des Barcode-API-Submoduls}
 
-Dieses Kapitel beschreibt wesentliche technische Komponenten des Prototyps. Der Schwerpunkt liegt auf dem Barcode-Workflow, der API-Integration sowie der Einbindung in Lager- und Verkaufsprozesse.
+Dieses Kapitel beschreibt die Konzeption und die technische Umsetzung des Submoduls. Schwerpunkt sind Anforderungen, der Prozessablauf, API-Integration und die Einbindung in Odoo.
 
-\subsection{Barcode-Workflow in Odoo}
+\subsection{Prozessablauf vom Barcode-Scan bis zum Produktdatensatz}
 
 Das Barcode-Modul löst serverseitige Aktionen aus, mit denen der gescannte Barcode vom ERP-System verarbeitet wird. Der Prozess umfasst das Empfangen des Barcodes als Eingabe, den Aufruf des Custom-Addons, die Verarbeitung der API-Antwort sowie das Erstellen oder Aktualisieren eines Produktdatensatzes.
 
-\subsection{API-Integration}
+\subsection{API-Abfrage und Datenübernahme aus Open Food Facts}
 
 Ein Python-Service ruft produktbezogene Daten ab:
 
@@ -459,17 +459,19 @@ GET /api/v0/product/{barcode}.json
 
 Die relevanten Datenfelder werden anschließend auf die entsprechenden Odoo-Modelle übertragen. Dazu gehören insbesondere Produktname, Herstellerinformationen und Nährwertdaten.
 
-\subsection{Integration in Lager- und Verkaufsprozess}
+\subsection{Integration in Lagerprozesse}
 
 Sobald das Produkt existiert, wird es im Modul Inventory verfügbar und kann in Wareneingängen verbucht, durch Kommissionierung ausgelagert oder im Sales-Modul in Bestellungen überführt werden.
 
-\section{Evaluation}
+\section{Analyse der Lösung}
 
-Die Implementierung wurde anhand repräsentativer Testfälle geprüft. Dazu zählen bekannte und unbekannte Barcodes, API-Verfügbarkeit, fehlerhafte Datenstrukturen und doppelte Produkteinträge.
+\subsection{Vorteile gegenüber manueller Produktpflege}
 
-\section{Diskussion}
+Die Implementierung wurde anhand repräsentativer Testfälle geprüft. Dabei zeigen Tests, dass die automatische Anreicherung die Datenqualität verbessern und manuelle Aufwände reduzieren kann.
 
-Die prototypische Lösung zeigt, dass die automatische Anreicherung von Produktstammdaten die Datenqualität erhöhen und manuelle Pflegeprozesse reduzieren kann. Allerdings bestehen Abhängigkeiten von der API-Verfügbarkeit und der Datenqualität der Datenbank Open Food Facts.
+\subsection{Grenzen, Fehlerfälle und Datenqualität}
+
+Die prototypische Lösung zeigt jedoch Abhängigkeiten von der API-Verfügbarkeit und der Datenqualität der Open Food Facts-Datenbank. Fehlerhafte oder unvollständige OFF-Daten können zu unvollständigen Produktstammdaten führen.
 
 \section{Fazit und Ausblick}
 
