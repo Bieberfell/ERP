@@ -1,6 +1,14 @@
+.venv/
 .venv312/
 .vscode/
 _pgdata/
+
+# IDE and editor
+*.code-workspace
+.idea/
+*.swp
+*.swo
+*~
 
 # LaTeX build artifacts
 Latex\ ERP/*.aux
