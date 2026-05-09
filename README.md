@@ -1,5 +1,10 @@
 # ERP-System
+##Aufteilung
+Lorenz 1 Einleitung 1.1 Problemstellung 1.2 Zielsetzung und Aufbau der Arbeit 2 Grundlagen 2.1 ERP-Systeme und Produktstammdaten 2.2 Barcodes und Produktidentifikation 2.3 Schnittstellen und Open-Food-Facts-API 
 
+Leonard 3 Odoo als Systembasis 3.1 Produkt- und Lagerverwaltung in Odoo 3.2 Erweiterung durch ein Custom-Submodul 4 Konzeption und Umsetzung des Barcode-API-Submoduls 4.1 Anforderungen an das Submodul 4.2 Prozessablauf vom Barcode-Scan bis zum Produktdatensatz 4.3 API-Abfrage und Datenübernahme aus Open Food Facts 4.4 Automatische Produktanlage in Odoo 4.5 Integration in Lagerprozesse 
+
+Zusammen 5 Analyse der Lösung 5.1 Vorteile gegenüber manueller Produktpflege 5.2 Grenzen, Fehlerfälle und Datenqualität 6 Fazit und Ausblick
 ## Projektbeschreibung
 
 Automatisierte Warenverwaltung via Barcode-Scanning:
