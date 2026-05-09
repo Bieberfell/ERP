@@ -26,3 +26,19 @@ Latex\ ERP/*.pdf
 Latex\ ERP/*.run.xml
 Latex\ ERP/*.synctex*
 Latex\ ERP/*.toc
+ 
+# Global LaTeX build artifacts (ignore everywhere)
+*.aux
+*.bcf
+*.blg
+*.bbl
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.lol
+*.out
+*.run.xml
+*.synctex*
+*.toc
