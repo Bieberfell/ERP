@@ -1,0 +1,243 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{chang2014}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=e51911e17d0be2aaf958c1c9b55adaa3}{%
+           family={Chang},
+           familyi={C\bibinitperiod},
+           given={Victor},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{e51911e17d0be2aaf958c1c9b55adaa3}
+      \strng{fullhash}{e51911e17d0be2aaf958c1c9b55adaa3}
+      \strng{fullhashraw}{e51911e17d0be2aaf958c1c9b55adaa3}
+      \strng{bibnamehash}{e51911e17d0be2aaf958c1c9b55adaa3}
+      \strng{authorbibnamehash}{e51911e17d0be2aaf958c1c9b55adaa3}
+      \strng{authornamehash}{e51911e17d0be2aaf958c1c9b55adaa3}
+      \strng{authorfullhash}{e51911e17d0be2aaf958c1c9b55adaa3}
+      \strng{authorfullhashraw}{e51911e17d0be2aaf958c1c9b55adaa3}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Information Management}
+      \field{number}{3}
+      \field{title}{Business Integration as a Service: Computational Risk Analysis for SMEs Adopting SAP}
+      \field{volume}{34}
+      \field{year}{2014}
+      \field{pages}{403\bibrangedash 413}
+      \range{pages}{11}
+    \endentry
+    \entry{chopra2016}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=c89c289b7605f2c991bd85e8fabd286d}{%
+           family={Chopra},
+           familyi={C\bibinitperiod},
+           given={Sunil},
+           giveni={S\bibinitperiod}}}%
+        {{hash=dc2d813710eb980f88a732a98b0ea903}{%
+           family={Meindl},
+           familyi={M\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{417574065407421bc65ef48d27a60355}
+      \strng{fullhash}{417574065407421bc65ef48d27a60355}
+      \strng{fullhashraw}{417574065407421bc65ef48d27a60355}
+      \strng{bibnamehash}{417574065407421bc65ef48d27a60355}
+      \strng{authorbibnamehash}{417574065407421bc65ef48d27a60355}
+      \strng{authornamehash}{417574065407421bc65ef48d27a60355}
+      \strng{authorfullhash}{417574065407421bc65ef48d27a60355}
+      \strng{authorfullhashraw}{417574065407421bc65ef48d27a60355}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Supply Chain Management: Strategy, Planning, and Operation}
+      \field{year}{2016}
+    \endentry
+    \entry{davenport1998}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=418715aadaf08f606ff3e5575fa44f4f}{%
+           family={Davenport},
+           familyi={D\bibinitperiod},
+           given={Thomas\bibnamedelima H.},
+           giveni={T\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{418715aadaf08f606ff3e5575fa44f4f}
+      \strng{fullhash}{418715aadaf08f606ff3e5575fa44f4f}
+      \strng{fullhashraw}{418715aadaf08f606ff3e5575fa44f4f}
+      \strng{bibnamehash}{418715aadaf08f606ff3e5575fa44f4f}
+      \strng{authorbibnamehash}{418715aadaf08f606ff3e5575fa44f4f}
+      \strng{authornamehash}{418715aadaf08f606ff3e5575fa44f4f}
+      \strng{authorfullhash}{418715aadaf08f606ff3e5575fa44f4f}
+      \strng{authorfullhashraw}{418715aadaf08f606ff3e5575fa44f4f}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Harvard Business Review}
+      \field{number}{4}
+      \field{title}{Putting the Enterprise into the Enterprise System}
+      \field{volume}{76}
+      \field{year}{1998}
+      \field{pages}{121\bibrangedash 131}
+      \range{pages}{11}
+    \endentry
+    \entry{gronau2017}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=396bf55324c6fa67f75b2be4395722b5}{%
+           family={Gronau},
+           familyi={G\bibinitperiod},
+           given={Norbert},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {München}%
+      }
+      \list{publisher}{1}{%
+        {De Gruyter Oldenbourg}%
+      }
+      \strng{namehash}{396bf55324c6fa67f75b2be4395722b5}
+      \strng{fullhash}{396bf55324c6fa67f75b2be4395722b5}
+      \strng{fullhashraw}{396bf55324c6fa67f75b2be4395722b5}
+      \strng{bibnamehash}{396bf55324c6fa67f75b2be4395722b5}
+      \strng{authorbibnamehash}{396bf55324c6fa67f75b2be4395722b5}
+      \strng{authornamehash}{396bf55324c6fa67f75b2be4395722b5}
+      \strng{authorfullhash}{396bf55324c6fa67f75b2be4395722b5}
+      \strng{authorfullhashraw}{396bf55324c6fa67f75b2be4395722b5}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Enterprise Resource Planning: Architektur, Funktionen und Management von ERP-Systemen}
+      \field{year}{2017}
+    \endentry
+    \entry{krcmar2022}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=97558c30684fb70538b0efcd39836dfd}{%
+           family={Krcmar},
+           familyi={K\bibinitperiod},
+           given={Helmut},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin}%
+      }
+      \list{publisher}{1}{%
+        {Springer Gabler}%
+      }
+      \strng{namehash}{97558c30684fb70538b0efcd39836dfd}
+      \strng{fullhash}{97558c30684fb70538b0efcd39836dfd}
+      \strng{fullhashraw}{97558c30684fb70538b0efcd39836dfd}
+      \strng{bibnamehash}{97558c30684fb70538b0efcd39836dfd}
+      \strng{authorbibnamehash}{97558c30684fb70538b0efcd39836dfd}
+      \strng{authornamehash}{97558c30684fb70538b0efcd39836dfd}
+      \strng{authorfullhash}{97558c30684fb70538b0efcd39836dfd}
+      \strng{authorfullhashraw}{97558c30684fb70538b0efcd39836dfd}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{7}
+      \field{title}{Informationsmanagement}
+      \field{year}{2022}
+    \endentry
+    \entry{lausen2020}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=7572d97d7a33866f01fb3a593e82367e}{%
+           family={Lausen},
+           familyi={L\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Wiesbaden}%
+      }
+      \list{publisher}{1}{%
+        {Springer Gabler}%
+      }
+      \strng{namehash}{7572d97d7a33866f01fb3a593e82367e}
+      \strng{fullhash}{7572d97d7a33866f01fb3a593e82367e}
+      \strng{fullhashraw}{7572d97d7a33866f01fb3a593e82367e}
+      \strng{bibnamehash}{7572d97d7a33866f01fb3a593e82367e}
+      \strng{authorbibnamehash}{7572d97d7a33866f01fb3a593e82367e}
+      \strng{authornamehash}{7572d97d7a33866f01fb3a593e82367e}
+      \strng{authorfullhash}{7572d97d7a33866f01fb3a593e82367e}
+      \strng{authorfullhashraw}{7572d97d7a33866f01fb3a593e82367e}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Datenqualität und Stammdatenmanagement}
+      \field{year}{2020}
+    \endentry
+    \entry{romney2018}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=dbdcce14166e514f3ef5620ca198f24d}{%
+           family={Romney},
+           familyi={R\bibinitperiod},
+           given={Marshall\bibnamedelima B.},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=0d94a79289a267cec52ad97330659f70}{%
+           family={Steinbart},
+           familyi={S\bibinitperiod},
+           given={Paul\bibnamedelima J.},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{e0ded3293a22a71f8e90b2491e57dc51}
+      \strng{fullhash}{e0ded3293a22a71f8e90b2491e57dc51}
+      \strng{fullhashraw}{e0ded3293a22a71f8e90b2491e57dc51}
+      \strng{bibnamehash}{e0ded3293a22a71f8e90b2491e57dc51}
+      \strng{authorbibnamehash}{e0ded3293a22a71f8e90b2491e57dc51}
+      \strng{authornamehash}{e0ded3293a22a71f8e90b2491e57dc51}
+      \strng{authorfullhash}{e0ded3293a22a71f8e90b2491e57dc51}
+      \strng{authorfullhashraw}{e0ded3293a22a71f8e90b2491e57dc51}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Pearson Education}
+      \field{title}{Accounting Information Systems}
+      \field{year}{2018}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

@@ -11,7 +11,35 @@ Barcode scannen
   → Lagerbestand synchronisieren
 ```
 
-**MVP (Version 1):** Alleen dieser Flow wird implementiert.
+**MVP (Version 1):** Dieser Kern-Flow ist implementiert und lauffaehig.
+
+## Neue Features
+
+- **Custom App: Barcode OFF**
+  - Eigener Menuepunkt in Odoo: `Barcode OFF -> Import Product`
+  - Wizard fuer Barcode-Import mit Menge und Lagerort
+- **Open Food Facts Integration mit Fallback**
+  - API-Abruf ueber `v2` mit Fallback auf `v0`
+  - User-Agent Header fuer stabile OFF-Anfragen
+  - Barcode-Variantenlogik fuer 12/13-stellige Codes
+- **Intelligente Produktanlage/-pflege**
+  - Neue Produkte werden automatisch in Odoo angelegt
+  - Bestehende Produkte werden anhand des Barcodes aktualisiert
+  - Kategorie wird aus OFF-Tags uebernommen/neu angelegt
+- **Erweitertes Daten-Mapping**
+  - Name, interne Beschreibung und Verkaufsbeschreibung
+  - Marke, Packungsmenge, Nutri-Score, NOVA-Gruppe
+  - Logistikfelder (Gewicht/Volumen) aus OFF-Einheiten
+  - Produktbild-Import (`image_1920`) von OFF
+- **Optionale Bestandsbuchung**
+  - Direkte Bestandsanpassung im gewaehlten internen Lagerort
+- **Barcode-Scanner Integration**
+  - USB-Scanner wird automatisch erkannt und befuellt das Barcode-Feld
+  - Unterstuetzte Scanner: HID Keyboard Wedge Mode (Standardscanner)
+- **Intelligente Fallback-Strategie**
+  - Wenn OFF keinen Treffer liefert: automatisch Minimal-Produkt erstellen
+  - Kein Fehler mehr bei unbekannten Barcodes
+  - Benutzer kann Produktdaten nachtraeglich manuell ergaenzen
 
 ## Verwendete Module
 
@@ -102,6 +130,62 @@ Navigiere zu: **http://127.0.0.1:8069**
 
 ---
 
+## Barcode OFF Feature nutzen
+
+### Module aufgraden (nach Code-Aenderungen)
+
+Wenn du die Scanner- oder Fallback-Features testen willst, fuehre das Upgrade aus:
+
+```powershell
+cd C:\playground\ERP\odoo
+.\.\ venv\Scripts\python.exe odoo-bin -c odoo.conf -d erp_dev --http-port=8070 -u barcode_open_food_facts
+```
+
+### Scanner einrichten
+
+1. **Scanner-Hardware vorbereiten**
+   - Scanner muss im **HID Keyboard Wedge Mode** sein (Standardmodus)
+   - Suffix sollte **Enter** oder **Tab** sein
+   - Teste vorher in Editor/Notepad: Scanner-Input sollte Ziffern schreiben
+
+2. **Im Wizard scannen**
+   - Oeffne: **Barcode OFF > Import Product**
+   - Klick in das Barcode-Feld
+   - Barcode mit Scanner einscannen → Feld wird automatisch befuellt
+   - Menge + Lagerort waehlen (optional)
+   - **Import** klicken
+
+### Fallback-Verhalten
+
+Drei Szenarien beim Import:
+
+| Szenario | Verhalten | Ergebnis |
+|----------|-----------|----------|
+| **OFF liefert Treffer** | Vollstaendiges Daten-Mapping | Produkt mit Name, Bild, Gewicht, Kategorie, etc. |
+| **OFF: kein Treffer (Fallback)** | Minimal-Produkt wird erstellt | Produkt mit nur Barcode + "Unknown Product (XXXXX)" als Name|
+| **Produkt existiert bereits** | Update mit neuen OFF-Daten | Nur neue Felder werden gefuellt, vorhandene bleiben erhalten |
+
+**Fallback Erkennungszeichen:**
+- Produktname: `Unknown Product (12345678901)`
+- Interne Beschreibung: *"Automatically created because no Open Food Facts match was found."*
+
+### Testbarcodes
+
+Zum Testen kannst du diese gültigen OFF-Barcodes verwenden:
+
+```
+3017620422003  → Vodka
+737628064502   → Wasser
+5060292300396  → Kakaopuder
+```
+
+Und einen Fake-Barcode zum Fallback testen:
+```
+9999999999999  → loest Fallback aus
+```
+
+---
+
 ## PostgreSQL Zugangsdaten
 
 - **Host:** localhost
@@ -144,12 +228,22 @@ Das ist ok für lokale Entwicklung. Für Production sollte PostgreSQL 13+ verwen
 
 ---
 
-## Nächste Schritte
+## Status und Naechste Schritte
 
-1. **Custom-Addon erstellen** für Barcode + Open Food Facts Integration
-2. **API-Client** zu Open Food Facts implementieren
-3. **WebUI / Scanner-Integration** testen
-4. **Tests** schreiben
+### Erledigt (MVP v1.0)
+- ✅ Barcode-Scanner Integration (HID Keyboard Wedge)
+- ✅ Fallback-Strategie (Minimal-Produkt bei OFF-Treffer-Ausfall)
+- ✅ Open Food Facts API mit v2→v0 Fallback
+- ✅ Intelligentes Daten-Mapping (Name, Bild, Gewicht, Kategorie, Nutri-Score, etc.)
+- ✅ Optionale Bestandsbuchung
+
+### Geplant (nächste Iterationen)
+1. **Auto-Import beim Scanner** (Enter drücken startet automatisch Import)
+2. **Feld-Mapping erweitern** (Herkunft, Allergene, Naehrwertinfo)
+3. **Strukturiertes Logging** (erfolgreiche Imports, Fallback-Rate, API-Performance)
+4. **Benutzer-Feedback im Wizard** (Success/Warning-Messages nach Import)
+5. **Automatisierte Tests** (Unit-Tests fuer OFF-API, Integration Tests fuer Wizard)
+6. **Scanner-Konfiguration** (Scanner-Präfixe, Timeouts, optionales Beep)
 
 ---
 
