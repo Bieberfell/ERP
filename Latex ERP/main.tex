@@ -103,7 +103,122 @@
 \usepackage{csquotes}
 \usepackage[nottoc]{tocbibind}
 \usepackage{tocloft}
+\usepackage[bottom]{footmisc}
 \usepackage[hidelinks]{hyperref}
+
+% ---------------------------------------------------
+% FUSSNOTEN IM FOM-/CHICAGO-STIL
+% ---------------------------------------------------
+
+% Fußnoten: 10 pt, einzeilig, linksbündig
+\renewcommand{\footnotelayout}{\fontsize{10}{12}\selectfont\setstretch{1}}
+
+% Schwarze Trennlinie über den Fußnoten
+\renewcommand{\footnoterule}{%
+  \kern -3pt
+  \hrule width 4cm height 0.6pt
+  \kern 6pt
+}
+
+% Fußnotennummer in der Fußnote linksbündig und nicht eingerückt
+\makeatletter
+\renewcommand\@makefntext[1]{%
+  \noindent
+  \makebox[1.8em][l]{\textsuperscript{\normalfont\fontsize{7.5}{8}\selectfont\@thefnmark}}#1%
+}
+\makeatother
+
+% ---------------------------------------------------
+% BIBLATEX
+% ---------------------------------------------------
+\usepackage[
+backend=biber,
+style=authoryear,
+citestyle=authoryear,
+sorting=nyt,
+maxcitenames=2,
+maxbibnames=99,
+giveninits=true,
+uniquename=false,
+uniquelist=false,
+doi=false,
+isbn=false,
+url=true
+]{biblatex}
+
+\addbibresource{literatur.bib}
+
+\DefineBibliographyStrings{ngerman}{
+  andothers = {et al.},
+  page = {S.},
+  pages = {S.}
+}
+
+\renewcommand*{\postnotedelim}{\addcomma\space}
+
+% Namen in Fußnoten: Nachname, Initialen
+\DeclareNameAlias{labelname}{family-given}
+
+% Titel/Stichwort in Fußnoten nicht kursiv setzen
+\DeclareFieldFormat{citetitle}{#1}
+
+% Seitenangaben in Fußnoten automatisch mit S.
+% Beispiel: \fomfootcite[187--191]{theisen2021}
+\DeclareFieldFormat{postnote}{S.~#1}
+
+% Kurzer FOM-Chicago-Beleg:
+% Autor, Stichwort/shorttitle, Jahr, S. ...
+%
+% Wichtig:
+% In literatur.bib am besten shorttitle setzen, z. B.:
+% shorttitle = {Wissenschaftliches Arbeiten}
+%
+% Falls kein shorttitle vorhanden ist, wird automatisch der normale Titel verwendet.
+\DeclareCiteCommand{\fomshortcite}
+  {}
+  {%
+    \printnames{labelname}%
+    \setunit{\addcomma\space}%
+    \iffieldundef{shorttitle}
+      {\printfield[citetitle]{title}}
+      {\printfield[citetitle]{shorttitle}}%
+    \setunit{\addcomma\space}%
+    \printfield{year}%
+  }
+  {\multicitedelim}
+  {%
+    \setunit{\addcomma\space}%
+    \printfield{postnote}%
+  }
+
+% Indirektes Zitat mit Vgl.
+% Nutzung:
+% \fomfootcite[12]{krcmar2022}
+% ergibt:
+% Vgl. Krcmar, H., Stichwort, 2022, S. 12.
+\newcommand{\fomfootcite}[2][]{%
+  \footnote{Vgl. \ifstrempty{#1}{\fomshortcite{#2}}{\fomshortcite[#1]{#2}}.}%
+}
+
+% Direktes Zitat ohne Vgl.
+% Nutzung:
+% \fomfootcitedirect[12]{krcmar2022}
+% ergibt:
+% Krcmar, H., Stichwort, 2022, S. 12.
+\newcommand{\fomfootcitedirect}[2][]{%
+  \footnote{\ifstrempty{#1}{\fomshortcite{#2}}{\fomshortcite[#1]{#2}}.}%
+}
+
+% Manuelle Chicago-Fußnote für Fälle ohne BibTeX-Eintrag
+% Nutzung:
+% \fommanualfootcite{Vgl. Theisen, M. R., Wissenschaftliches Arbeiten, 2021, S. 136.}
+\newcommand{\fommanualfootcite}[1]{%
+  \footnote{#1}%
+}
+
+% ---------------------------------------------------
+% INHALTSVERZEICHNIS
+% ---------------------------------------------------
 
 % Inhaltsverzeichnis nur bis Ebene 2 anzeigen:
 % section und subsection, also z. B. 1 und 1.1
@@ -220,34 +335,6 @@
 }
 
 % ---------------------------------------------------
-% LITERATUR
-% ---------------------------------------------------
-\usepackage[
-backend=biber,
-style=authoryear,
-citestyle=authoryear,
-sorting=nyt,
-maxcitenames=2,
-maxbibnames=99,
-giveninits=true,
-uniquename=false,
-uniquelist=false,
-doi=false,
-isbn=false,
-url=true
-]{biblatex}
-
-\addbibresource{literatur.bib}
-
-\DefineBibliographyStrings{ngerman}{
-  andothers = {et al.},
-  page = {S.},
-  pages = {S.}
-}
-
-\renewcommand*{\postnotedelim}{\addcomma\space}
-
-% ---------------------------------------------------
 % DOKUMENTBEGINN
 % ---------------------------------------------------
 \begin{document}
@@ -329,15 +416,15 @@ REST & Representational State Transfer \\
 
 \section{Einleitung}
 
-Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind \parencite[vgl.][]{krcmar2022}.
+Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind.\fomfootcite{krcmar2022}
 
-Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar: uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen \parencite[vgl.][]{gronau2017}. Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können \parencite[vgl.][]{lausen2020}.
+Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar: uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen.\fomfootcite{gronau2017} Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können.\fomfootcite{lausen2020}
 
-ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden \parencite[vgl.][]{davenport1998}. Insbesondere im Bereich des Bestands- und Lagermanagements tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten \parencite[vgl.][]{romney2018}.
+ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden.\fomfootcite{davenport1998} Insbesondere im Bereich des Bestands- und Lagermanagements tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten.\fomfootcite{romney2018}
 
-Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und fördern die bereichsübergreifende Zusammenarbeit innerhalb der Supply Chain. Studien zeigen, dass der Einsatz von ERP-Systemen signifikant zur Verbesserung der operativen Effizienz beitragen kann, da Prozesse besser koordiniert und Informationsflüsse optimiert werden \parencite[vgl.][]{chopra2016}. Insbesondere durch die Automatisierung wiederkehrender Aufgaben und die Integration verschiedener Unternehmensbereiche können Fehlerquellen reduziert und Entscheidungsprozesse beschleunigt werden \parencite[vgl.][]{chang2014}.
+Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und fördern die bereichsübergreifende Zusammenarbeit innerhalb der Supply Chain. Studien zeigen, dass der Einsatz von ERP-Systemen signifikant zur Verbesserung der operativen Effizienz beitragen kann, da Prozesse besser koordiniert und Informationsflüsse optimiert werden.\fomfootcite{chopra2016} Insbesondere durch die Automatisierung wiederkehrender Aufgaben und die Integration verschiedener Unternehmensbereiche können Fehlerquellen reduziert und Entscheidungsprozesse beschleunigt werden.\fomfootcite{chang2014}
 
-Im Kontext der Lagerlogistik spielt die Qualität von Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Kommissionierungsprozessen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen hier eine präzisere Steuerung von Beständen sowie eine bessere Nachverfolgbarkeit von Warenströmen \parencite[vgl.][]{chopra2016}.
+Im Kontext der Lagerlogistik spielt die Qualität von Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Kommissionierungsprozessen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen hier eine präzisere Steuerung von Beständen sowie eine bessere Nachverfolgbarkeit von Warenströmen.\fomfootcite{chopra2016}
 
 Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung von Produktinformationen. Offene Datenbanken wie Open Food Facts stellen strukturierte und maschinenlesbare Produktdaten bereit, die über standardisierte Schnittstellen (APIs) abgerufen werden können. Diese Entwicklung eröffnet neue Möglichkeiten zur Automatisierung der Stammdatenpflege und zur Reduktion manueller Eingaben, wodurch sowohl die Datenqualität als auch die Prozesseffizienz nachhaltig verbessert werden können.
 
@@ -345,7 +432,7 @@ Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung vo
 
 Im Lebensmitteleinzelhandel müssen Produktstammdaten wie Produktbezeichnungen, Herstellerinformationen, Zutatenlisten, Allergenkennzeichnungen, Nährwerttabellen und EAN/GTIN-Barcodes kontinuierlich aktualisiert werden, da sie die Grundlage für zahlreiche betriebliche Prozesse darstellen. Die manuelle Erfassung dieser Informationen ist jedoch zeitintensiv, fehleranfällig und bindet erhebliche personelle Ressourcen. In der Praxis führt dies häufig zu inkonsistenten oder unvollständigen Datensätzen, redundanten Datenbeständen in unterschiedlichen Systemen sowie zu Übertragungsfehlern bei der Pflege und Aktualisierung der Informationen.
 
-Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht (vgl. Niedermeier, 2025; Gronau, 2017). Gleichzeitig bieten offene Produktdatenbanken wie Open Food Facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern.
+Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht.\fommanualfootcite{Vgl. Niedermeier, Datenqualität, 2025; Gronau, ERP-Systeme, 2017.} Gleichzeitig bieten offene Produktdatenbanken wie Open Food Facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern.
 
 \subsection{Zielsetzung der Arbeit}
 
@@ -357,7 +444,7 @@ Die Arbeit untersucht insgesamt, in welchem Ausmaß der Einsatz externer Datenqu
 
 \section{Theoretische Grundlagen}
 
-Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind (vgl. Theisen, 2021, S. 136).
+Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind.\fommanualfootcite{Vgl. Theisen, M. R., Wissenschaftliches Arbeiten, 2021, S. 136.}
 
 \subsection{ERP-Systeme und Odoo}
 
