@@ -22,6 +22,7 @@ Latex\ ERP/*.log
 Latex\ ERP/*.lot
 Latex\ ERP/*.lol
 Latex\ ERP/*.out
+Latex\ ERP/*.xdv
 Latex\ ERP/*.pdf
 Latex\ ERP/*.run.xml
 Latex\ ERP/*.synctex*
@@ -38,6 +39,7 @@ Latex\ ERP/*.toc
 *.lot
 *.lol
 *.out
+*.xdv
 *.run.xml
 *.synctex*
 *.toc
