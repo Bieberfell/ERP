@@ -88,6 +88,7 @@
 % ---------------------------------------------------
 \usepackage{listings}
 \renewcommand{\lstlistlistingname}{Codeverzeichnis}
+\renewcommand{\lstlistingname}{Quellcode}
 
 \lstset{
     basicstyle=\ttfamily\small,
@@ -395,7 +396,7 @@ https://world.openfoodfacts.org/api/v0/product/{barcode}.json
 
 Die API liefert unter anderem Produktnamen, Zutaten und Allergene, Nährwerttabellen, Marken, Kategorien sowie Produktbilder.
 
-\section{Konzeption und Umsetzung des Barcode-API-Submoduls}
+\section{Anforderungsanalyse}
 
 Dieses Kapitel beschreibt funktionale und nichtfunktionale Anforderungen, die als Grundlage für die Implementierung dienen.
 
@@ -576,23 +577,185 @@ Die Abbildung \ref{fig:inventory-bestellfortschritt} dokumentiert den Bestellfor
   \label{fig:inventory-abgeschlossen}
 \end{figure}
 
-\section{Analyse der Lösung}
+\section{Technische Analyse des Custom-Submoduls}
 
-\subsection{Vorteile gegenüber manueller Produktpflege}
+\subsection{Modulstruktur und Einordnung}
 
-Die entwickelte Lösung ersetzt Teile der manuellen Produktpflege durch einen API-gestützten Datenabruf. Der wesentliche Unterschied zur manuellen Vorgehensweise besteht darin, dass Produktinformationen nicht einzeln recherchiert und händisch in das ERP-System übertragen werden müssen, sofern sie über die Open-Food-Facts-API verfügbar sind. Stattdessen wird der Barcode als Schlüssel verwendet, um strukturierte Produktdaten aus einer externen Datenquelle abzurufen und in Odoo weiterzuverarbeiten.
+Die vorliegende Umsetzung besteht nicht nur aus einem einzelnen API-Aufruf, sondern aus einem vollständigen Odoo-Addon mit klar getrennten Schichten. Die Modulstruktur im Verzeichnis \texttt{barcode\_open\_food\_facts} kann in vier funktionale Bereiche unterteilt werden: Manifest, Modelle, Views und Sicherheit. Eine dedizierte Teststruktur ist in der aktuellen Repository-Version nicht vorhanden.
 
-Dadurch kann der manuelle Erfassungsaufwand bei der Produktanlage reduziert werden. Gleichzeitig wird die Wahrscheinlichkeit von Übertragungsfehlern verringert, da bereits strukturierte Daten übernommen werden können. Ein weiterer Vorteil besteht in der einheitlicheren Verarbeitung der Produktdaten, da die Zuordnung der API-Felder zu Odoo-Feldern über definierte Mapping-Regeln erfolgt. Die Lösung unterstützt somit eine systematische und reproduzierbare Pflege von Produktstammdaten.
+\begin{itemize}
+  \item \textbf{\texttt{\_\_manifest\_\_.py}}: Metadaten, Abhängigkeiten und Lade-Reihenfolge der XML- und CSV-Dateien.
+  \item \textbf{\texttt{models/}}: Fachlogik für den Import-Workflow und die persistente Ablage der Zusatzdaten.
+  \item \textbf{\texttt{views/}}: Formular, Actions und Menüs für den fachlichen Zugriff in der Odoo-Oberfläche.
+  \item \textbf{\texttt{security/ir.model.access.csv}}: Zugriff für interne Benutzer auf Wizard und Produktmodell.
+\end{itemize}
 
-Für Lager- und Verkaufsprozesse ist außerdem relevant, dass die Produktdaten unmittelbar nach ihrer Anlage im ERP-System verfügbar sind. Dadurch können sie in Wareneingängen, Bestandsbuchungen und Verkaufsprozessen weiterverwendet werden. Die Lösung stellt somit keinen isolierten Datenimport dar, sondern ist in die ERP-interne Prozesskette eingebunden.
+Das Modul ist als Anwendung installierbar und hängt technisch von \texttt{product}, \texttt{stock} und \texttt{web} ab. Damit wird die Produktanlage direkt an den Odoo-Standard gekoppelt und gleichzeitig die Lagerbuchung vorbereitet.
 
-\subsection{Grenzen, Fehlerfälle und Datenqualität}
+\begin{lstlisting}[caption={Auszug aus \texttt{\_\_manifest\_\_.py}}, label={lst:off-manifest}]
+{
+  "name": "Barcode Open Food Facts",
+  "version": "19.0.1.0.0",
+  "depends": ["product", "stock", "web"],
+  "data": [
+    "security/ir.model.access.csv",
+    "views/barcode_import_wizard_views.xml",
+    "views/barcode_import_actions.xml",
+    "views/barcode_off_product_views.xml",
+    "views/barcode_menus.xml",
+  ],
+  "installable": True,
+  "application": True,
+}
+\end{lstlisting}
 
-Die prototypische Lösung ist von der Verfügbarkeit und Datenqualität der Open-Food-Facts-API abhängig. Nicht jeder Barcode ist in der Datenbank vorhanden. Zudem können vorhandene Datensätze unvollständig, uneinheitlich oder fehlerhaft gepflegt sein. In solchen Fällen können Produktinformationen nicht vollständig übernommen werden. Daraus ergibt sich die Notwendigkeit, API-Antworten zu prüfen und fehlende oder ungeeignete Datenfelder im Prozess zu berücksichtigen.
+\subsection{Datenmodelle und Feldaufbau}
 
-Ein weiterer Fehlerfall entsteht, wenn die API zeitweise nicht erreichbar ist oder keine gültige Antwort liefert. Das Submodul muss daher so gestaltet werden, dass ein fehlgeschlagener API-Aufruf nicht zu inkonsistenten Daten im ERP-System führt. Ebenso muss verhindert werden, dass Produkte mehrfach angelegt werden, wenn ein Barcode bereits im System vorhanden ist. Hierfür ist eine Prüfung bestehender Produktdatensätze erforderlich.
+Die Implementierung verwendet zwei Odoo-Modelle. \texttt{barcode.off.import.wizard} ist ein \texttt{TransientModel} für die Importmaske. \texttt{barcode.off.product} ist ein persistentes Modell zur Ablage der erweiterten Open-Food-Facts-Daten pro Produktvorlage. Damit trennt die Lösung den UI-nahen Importvorgang von der dauerhaften Datenspeicherung.
 
-Die Datenqualität der externen Quelle kann durch das ERP-System nicht vollständig kontrolliert werden. Das Custom-Submodul kann lediglich Regeln für die Übernahme, Validierung und Weiterverarbeitung der gelieferten Daten bereitstellen. Daraus folgt, dass die automatisierte Stammdatenpflege nicht als vollständiger Ersatz für Datenqualitätsmanagement verstanden werden kann. Vielmehr stellt sie eine technische Unterstützung dar, die manuelle Prozessschritte reduziert und die strukturierte Übernahme externer Produktinformationen ermöglicht.
+\begin{lstlisting}[caption={Persistentes Modell für Open-Food-Facts-Daten}, label={lst:off-product-model}]
+class BarcodeOffProduct(models.Model):
+  _name = "barcode.off.product"
+  _description = "Open Food Facts Product Data"
+
+  product_tmpl_id = fields.Many2one("product.template", required=True, ondelete="cascade")
+  barcode = fields.Char(index=True)
+  brand = fields.Char(string="Brand")
+  quantity_str = fields.Char(string="Quantity (Text)")
+  image_url = fields.Char(string="Image URL (OFF)")
+  ingredients_text = fields.Text(string="Ingredients")
+  allergens = fields.Text(string="Allergens")
+  energy_kcal = fields.Float(string="Energy (kcal/100g)")
+  fat_g = fields.Float(string="Fat (g/100g)")
+  carbohydrates_g = fields.Float(string="Carbohydrates (g/100g)")
+  proteins_g = fields.Float(string="Proteins (g/100g)")
+  salt_g = fields.Float(string="Salt (g/100g)")
+  nutri_score = fields.Char(string="Nutri-Score")
+  ecoscore_grade = fields.Char(string="Eco-Score")
+  labels = fields.Char(string="Labels")
+  off_json_data = fields.Json(string="Raw OFF Data")
+\end{lstlisting}
+
+Die Feldstruktur zeigt bereits die fachliche Zielrichtung der Lösung. Neben Basisdaten wie Barcode, Marke und Menge werden auch Ernährungs- und Zutateninformationen sowie die Rohantwort der API abgelegt. Dadurch bleibt der Import auditierbar und spätere Nachverarbeitung ist möglich.
+
+\subsection{ORM-Zugriffe und Persistenz}
+
+Der Import-Workflow arbeitet vollständig über den Odoo-ORM-Zugriff. Es werden \texttt{env}-Zugriffe, \texttt{search}, \texttt{create}, \texttt{write}, \texttt{ensure\_one} und \texttt{sudo()} eingesetzt. Die Entscheidung, ob ein Produkt neu angelegt oder aktualisiert wird, erfolgt nicht in SQL, sondern in der Modelllogik des Wizards. Dadurch bleibt die Implementierung Odoo-konform und nutzt die Transaktionssteuerung des Frameworks.
+
+Das zentrale Muster ist die Dublettenprüfung über den Barcode. Vor einer Neuanlage wird \texttt{product.product} nach dem Barcode durchsucht. Existiert bereits ein Datensatz, wird die zugehörige Produktvorlage aktualisiert. Andernfalls wird eine neue Vorlage mit Variante erzeugt und der Barcode auf der Variante gesetzt.
+
+\begin{lstlisting}[caption={Dublettenprüfung und Upsert über den ORM}, label={lst:off-upsert}]
+def _upsert_product(self, barcode, product_data):
+  product = self.env["product.product"].search([("barcode", "=", barcode)], limit=1)
+  name = self._prepare_product_name(product_data, barcode)
+  category = self._prepare_category(product_data)
+  description = self._prepare_description(product_data)
+
+  vals = {"name": name}
+  if category:
+    vals["categ_id"] = category.id
+  if description:
+    vals["description"] = description
+
+  if product:
+    product.product_tmpl_id.write(vals)
+    existing_product = product
+  else:
+    vals["type"] = "consu"
+    template = self.env["product.template"].create(vals)
+    template.product_variant_id.barcode = barcode
+    existing_product = template.product_variant_id
+
+  self._save_off_data(existing_product.product_tmpl_id, barcode, product_data)
+  return existing_product
+\end{lstlisting}
+
+Die Persistenz der Zusatzdaten erfolgt anschließend in \texttt{barcode.off.product}. Die Methode legt einen vorhandenen Datensatz per \texttt{search} auf Basis der Produktvorlage zurück und schreibt ihn bei Bedarf mit \texttt{write} fort. Falls noch kein Datensatz existiert, wird er neu erstellt.
+
+\begin{lstlisting}[caption={Mapping der API-Felder auf Odoo-Felder}, label={lst:off-mapping}]
+off_vals = {
+  "product_tmpl_id": product_tmpl.id,
+  "barcode": barcode,
+  "brand": product_data.get("brands", ""),
+  "quantity_str": product_data.get("quantity", ""),
+  "image_url": product_data.get("image_url", ""),
+  "ingredients_text": product_data.get("ingredients_text", ""),
+  "allergens": product_data.get("allergens", ""),
+  "energy_kcal": product_data.get("energy_kcal_100g", 0.0),
+  "fat_g": product_data.get("fat_100g", 0.0),
+  "carbohydrates_g": product_data.get("carbohydrates_100g", 0.0),
+  "proteins_g": product_data.get("proteins_100g", 0.0),
+  "salt_g": product_data.get("salt_100g", 0.0),
+  "nutri_score": product_data.get("nutrition_score_fr_100g", "") or product_data.get("nutriscore_grade", ""),
+  "ecoscore_grade": product_data.get("ecoscore_grade", ""),
+  "labels": ",".join(product_data.get("labels_tags", [])) if product_data.get("labels_tags") else "",
+  "off_json_data": product_data,
+}
+\end{lstlisting}
+
+Das Mapping zeigt, dass die Integration nicht auf den Barcode reduziert ist. Vielmehr werden mehrere API-Felder auf Odoo-Felder abgebildet, darunter Nährwerte, Labels und Textinformationen. Die Rohdaten bleiben zusätzlich als JSON erhalten, was Debugging und spätere Erweiterungen erleichtert.
+
+\subsection{API-Aufruf, Validierung und Fehlerbehandlung}
+
+Der API-Zugriff ist zweistufig abgesichert. Zunächst wird der Barcode normalisiert, indem ein zwölfstelliger EAN-12-Code bei Bedarf mit führender Null ergänzt und ein dreizehnstelliger Code mit führender Null alternativ gekürzt wird. Anschließend werden zwei API-Versionen probiert, nämlich \texttt{/api/v2/} und \texttt{/api/v0/}. Zusätzlich setzt der Code einen expliziten User-Agent und einen JSON-Accept-Header, weil Open Food Facts generische Clients ablehnen kann.
+
+\begin{lstlisting}[caption={Robuster Abruf von Open-Food-Facts-Daten}, label={lst:off-fetch}]
+def _fetch_off_product(self, barcode):
+  headers = {
+    "User-Agent": "ERP-BarcodeOFF/1.0 (local-dev)",
+    "Accept": "application/json",
+  }
+  barcode_candidates = [barcode]
+  if barcode.isdigit() and len(barcode) == 12:
+    barcode_candidates.append(f"0{barcode}")
+  if barcode.isdigit() and len(barcode) == 13 and barcode.startswith("0"):
+    barcode_candidates.append(barcode[1:])
+
+  for candidate in list(dict.fromkeys(barcode_candidates)):
+    urls = [
+      f"https://world.openfoodfacts.org/api/v2/product/{candidate}.json",
+      f"https://world.openfoodfacts.org/api/v0/product/{candidate}.json",
+    ]
+    for url in urls:
+      response = requests.get(url, headers=headers, timeout=12)
+      if response.status_code == 404:
+        continue
+      response.raise_for_status()
+      payload = response.json()
+      if payload.get("status") == 1 and payload.get("product"):
+        return payload["product"]
+\end{lstlisting}
+
+Fehler werden als \texttt{UserError} an Odoo zurückgegeben. Das ist fachlich sinnvoll, weil der Benutzer im UI direkt eine verständliche Meldung erhält und die Transaktion abgebrochen wird. Damit verhindert die Implementierung inkonsistente Zwischenstände bei API-Ausfällen, HTTP-Fehlern oder fehlenden Produkten.
+
+\begin{lstlisting}[caption={Validierung, Fehlermeldungen und Mengenbuchung}, label={lst:off-validation}]
+def action_import_from_open_food_facts(self):
+  self.ensure_one()
+  barcode = (self.barcode or "").strip()
+  if not barcode:
+    raise UserError(_("Please provide a barcode."))
+
+  product_data = self._fetch_off_product(barcode)
+  product = self._upsert_product(barcode, product_data)
+  self._apply_quantity(product)
+  self.product_tmpl_id = product.product_tmpl_id
+
+def _apply_quantity(self, product):
+  if not self.quantity:
+    return
+  if not self.location_id:
+    raise UserError(_("Please select a stock location to update quantity."))
+
+  self.env["stock.quant"].sudo()._update_available_quantity(product, self.location_id, self.quantity)
+\end{lstlisting}
+
+Zusätzlich prüft die Kategorieermittlung die ersten Open-Food-Facts-Tags und legt bei Bedarf eine neue Produktkategorie an. Auch das ist ein Validierungsschritt, weil fehlende Kategorien nicht zu einem Abbruch führen, sondern kontrolliert ergänzt werden.
+
+\subsection{Transaktionslogik und Konsistenz}
+
+Die gesamte Importaktion läuft innerhalb der Odoo-Transaktion. Es gibt keine explizite manuelle Commit-Logik, keine Savepoints und keine direkte SQL-Verarbeitung. Wenn eine \texttt{UserError} oder eine RequestException auftritt, wird die Aktion abgebrochen und die Odoo-Transaktion nicht erfolgreich abgeschlossen. Dadurch bleiben Produktanlage, Zusatzdaten und Mengenänderung konsistent.
+
+<Das ist wichtig, weil die Methode mehrere fachliche Schritte kombiniert: Barcode-Prüfung, API-Abfrage, Produkt-Upsert, Persistenz der Zusatzdaten und optionale Bestandsbuchung. Ein Fehler an beliebiger Stelle verhindert so, dass nur ein Teil der Daten geschrieben wird.
 
 \section{Fazit und Ausblick}
 
