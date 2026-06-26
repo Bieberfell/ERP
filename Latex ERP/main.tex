@@ -305,7 +305,8 @@ Wörter Code: & XXX \\
 \addcontentsline{toc}{section}{KI-Nutzung}
 
 In dieser wissenschaftlichen Arbeit wurden zur sprachlichen Unterstützung bei der Erstellung des Textes KI-Modelle eingesetzt. Insbesondere wurden ChatGPT und DeepL zur Verbesserung der Grammatik, Struktur, Rechtschreibung und Lesbarkeit verwendet. Die inhaltliche Konzeption, Argumentation und jedwede Schlussfolgerungen liegen jedoch vollständig in der Verantwortung des Autors. Sollten Fremdwerke verwendet worden sein, sind diese entsprechend durch Fußnoten gekennzeichnet.
-\section{Geschlechterinklusive Sprache} 
+
+\section*{Geschlechterinklusive Sprache} 
 \addcontentsline{toc}{section}{Geschlechterinklusive Sprache}
 In diesem Text wird aus Gründen der Lesbarkeit und Tradition häufig die maskuline Form verwendet. Dennoch sei betont, dass sich alle Ausführungen und Bezeichnungen geschlechtsübergreifend auf Personen aller Geschlechteridentitäten beziehen. Die Wahl der sprachlichen Form soll in keinem Fall als Ausschluss oder Diskriminierung anderer Geschlechter verstanden werden.
 \newpage
@@ -322,6 +323,7 @@ EAN & European Article Number \\
 ERP & Enterprise Resource Planning \\
 GTIN & Global Trade Item Number \\
 IT & Informationstechnologie \\
+KI & Künstliche Intelligenz \\
 REST & Representational State Transfer \\
 \end{tabular}
 
@@ -334,15 +336,15 @@ REST & Representational State Transfer \\
 
 \section{Einleitung}
 
-Die fortschreitende Digitalisierung betrieblicher Wertschöpfungsprozesse führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme (Enterprise Resource Planning) angewiesen sind, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse sind \autocite[vgl.][]{krcmar2022}.
+Die fortschreitende Digitalisierung von betrieblichen Wertschöpfungsprozessen führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme (Enterprise Resource Planning) angewiesen sind. Diese werden genutzt. um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse und Entscheidungen sind. \autocite[Vgl.][]{krcmar2022}
 
-Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar: uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen \autocite[vgl.][]{gronau2017}. Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können \autocite[vgl.][]{lausen2020}.
+Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar. Uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen. \autocite[Vgl.][]{gronau2017} Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als ein kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können \autocite[Vgl.][]{lausen2020}.
 
-ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden \autocite[vgl.][]{davenport1998}. Insbesondere im Bereich des Bestands- und Lagermanagements tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten \autocite[vgl.][]{romney2018}.
+ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden. \autocite[vgl.][]{davenport1998} Insbesondere im Bereich des Bestands- und Lagermanagements, sowie im Stammdatenmanagement tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten. \autocite[vgl.][]{romney2018}
 
-Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und fördern die bereichsübergreifende Zusammenarbeit innerhalb der Supply Chain. Studien zeigen, dass der Einsatz von ERP-Systemen signifikant zur Verbesserung der operativen Effizienz beitragen kann, da Prozesse besser koordiniert und Informationsflüsse optimiert werden \autocite[vgl.][]{chopra2016}. Insbesondere durch die Automatisierung wiederkehrender Aufgaben und die Integration verschiedener Unternehmensbereiche können Fehlerquellen reduziert und Entscheidungsprozesse beschleunigt werden \autocite[vgl.][]{chang2014}.
+Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und fördern die bereichsübergreifende Zusammenarbeit innerhalb der Supply Chain. Studien zeigen, dass der Einsatz von ERP-Systemen signifikant zur Verbesserung der operativen Effizienz beitragen kann, da Prozesse besser koordiniert und Informationsflüsse optimiert werden können. \autocite[vgl.][]{chopra2016} Insbesondere durch die Automatisierung wiederkehrender Aufgaben und die Integration verschiedener Unternehmensbereiche können Fehlerquellen reduziert und Entscheidungsprozesse beschleunigt werden. \autocite[vgl.][]{chang2014}
 
-Im Kontext der Lagerlogistik spielt die Qualität von Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Kommissionierungsprozessen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen hier eine präzisere Steuerung von Beständen sowie eine bessere Nachverfolgbarkeit von Warenströmen \autocite[vgl.][]{chopra2016}.
+In der Lagerlogistik spielt die Qualität der Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Auftragsabwicklungen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen eine präzisere Steuerung von Beständen und eine bessere Nachverfolgbarkeit von Warenströmen. \autocite[vgl.][]{chopra2016}
 
 Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung von Produktinformationen. Offene Datenbanken wie Open Food Facts stellen strukturierte und maschinenlesbare Produktdaten bereit, die über standardisierte Schnittstellen, sogenannte API's (Application Programming Interface), abgerufen werden können. Diese Entwicklung eröffnet neue Möglichkeiten zur Automatisierung der Stammdatenpflege und zur Reduktion manueller Eingaben, wodurch sowohl die Datenqualität als auch die Prozesseffizienz nachhaltig verbessert werden können.
 
@@ -350,19 +352,19 @@ Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung vo
 
 Im Lebensmitteleinzelhandel müssen Produktstammdaten wie Produktbezeichnungen, Herstellerinformationen, Zutatenlisten, Allergenkennzeichnungen, Nährwerttabellen sowie EAN- und GTIN-Barcodes (EAN: European Article Number; GTIN: Global Trade Item Number) kontinuierlich aktualisiert werden, da sie die Grundlage für zahlreiche betriebliche Prozesse bilden. Die manuelle Erfassung dieser Informationen ist jedoch zeitintensiv, fehleranfällig und bindet erhebliche personelle Ressourcen. In der Praxis führt dies häufig zu inkonsistenten oder unvollständigen Datensätzen, redundanten Datenbeständen in unterschiedlichen Systemen sowie zu Übertragungsfehlern bei der Pflege und Aktualisierung der Informationen.
 
-Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht (vgl. Niedermeier, 2025; Gronau, 2017). Gleichzeitig bieten offene Produktdatenbanken wie Open Food Facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern.
+Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht \autocite[Vgl.][]{gronau2017} (vgl. Niedermeier, 2025;)ACHTUNG. Gleichzeitig bieten offene Produktdatenbanken wie Open Food Facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern.
 
 \subsection{Zielsetzung der Arbeit}
 
-Ziel der vorliegenden Arbeit ist die Konzeption und prototypische Umsetzung einer End-to-End-Systemarchitektur, die eine automatisierte Produkt- und Lagerdatenverarbeitung im ERP-System Odoo ermöglicht. Der entwickelte Prototyp soll demonstrieren, wie Barcode-Erfassung, API-basierte Datenanreicherung und darauf aufbauende ERP-Prozesse technisch miteinander verknüpft werden können, um die Qualität und Aktualität von Produktstammdaten signifikant zu verbessern.
+Ziel der vorliegenden Arbeit ist die Konzeption und prototypische Umsetzung einer End-to-End-Systemarchitektur, die eine automatisierte Produkt- und Lagerdatenverarbeitung in Odoo ermöglicht. Der entwickelte Prototyp soll demonstrieren, wie Barcode-Erfassung, API-basierte Datenanreicherung und darauf aufbauende ERP-Prozesse technisch miteinander verknüpft werden können, um die Qualität von Produktstammdaten zu verbessern.
 
-Im Mittelpunkt steht dabei die automatisierte Erfassung von Artikelbarcodes über geeignete Eingabegeräte, der anschließende Abruf und die Validierung externer Produktinformationen über die Open-Food-Facts-API sowie die darauf basierende Erstellung oder Aktualisierung eines Produktstammsatzes innerhalb von Odoo. Darüber hinaus soll gezeigt werden, wie die angereicherten Daten in die Lagerprozesse des Inventory-Moduls integriert werden können und wie sie nachgelagerte Verkaufsprozesse im Sales-Modul unterstützen.
+Im Mittelpunkt steht dabei die Erfassung von Barcodes über geeignete Eingabegeräte, der anschließende Abruf und Vervollständigung der Produktdaten über die Open-Food-Facts-API sowie die darauf basierende Erstellung oder Aktualisierung eines Produktstammsatzes innerhalb von Odoo. Darüber hinaus soll gezeigt werden, wie die angereicherten Daten in die Lagerprozesse des Inventory-Moduls integriert werden können und wie sie nachgelagerte Verkaufsprozesse im Sales-Modul unterstützen.
 
 Die Arbeit untersucht insgesamt, in welchem Ausmaß der Einsatz externer Datenquellen und teilautomatisierter Informationsflüsse dazu beiträgt, die Qualität des Stammdatenbestands zu erhöhen und zugleich die Prozesskosten in den Bereichen Produktanlage, Lagerverwaltung und Verkauf nachhaltig zu reduzieren.
 
 \section{Grundlagen}
 
-Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind (vgl. Theisen, 2021, S. 136).
+Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind (vgl. Theisen, 2021, S. 136) QUELLE.
 
 \subsection{ERP-Systeme und Produktstammdaten}
 
@@ -374,7 +376,7 @@ Relevante Module für die vorliegende Arbeit sind:
     \item \textbf{Inventory (Lagerverwaltung)} -- Verwaltung von Beständen und Lagerbewegungen.
     \item \textbf{Sales (Vertrieb)} -- Auftragsabwicklung und Versandprozesse.
     \item \textbf{Purchase (Einkauf)} -- Bestell- und Beschaffungsprozesse.
-    \item \textbf{Barcode-Modul} -- Verarbeitung gescannter Barcodes und Aktionen in Odoo.
+    \item \textbf{Barcode-Modul} -- Eigen erstelltes Modul zur Verarbeitung gescannter Barcodes und Aktionen in Odoo.
 \end{itemize}
 
 \subsection{Barcodes und Produktidentifikation}
@@ -419,12 +421,12 @@ Dieses Kapitel beschreibt funktionale und nichtfunktionale Anforderungen, die al
 
 Odoo bildet die technische Systembasis des entwickelten Prototyps, da zentrale Produkt-, Lager- und Verkaufsprozesse innerhalb einer integrierten ERP-Umgebung abgebildet werden können. Das System ist modular aufgebaut und stellt unterschiedliche Anwendungen bereit, die auf einer gemeinsamen Datenbasis miteinander verbunden werden. Für die vorliegende Arbeit sind insbesondere die Produktverwaltung, die Lagerverwaltung sowie die technische Erweiterbarkeit durch individuell entwickelte Module relevant.
 
-Die im Prototyp verwendete Barcode-Funktionalität basiert nicht auf dem von Odoo standardmäßig bereitgestellten Barcode-Modul. Stattdessen wird ein eigenständig programmiertes Custom-Submodul eingesetzt, das Barcodes entgegennimmt, externe Produktdaten über die Open-Food-Facts-API abruft und diese Daten anschließend in die Produkt- und Lagerstrukturen von Odoo überführt. Odoo wird damit nicht als vollständige Standardlösung verwendet, sondern als ERP-Systembasis, die durch eine projektspezifische Erweiterung an den definierten Anwendungsfall angepasst wird.
+Die im Prototyp verwendete Barcode-Funktionalität basiert nicht auf dem von Odoo standardmäßig bereitgestellten Barcode-Modul. Stattdessen wird ein eigenständig programmiertes Custom-Submodul eingesetzt, das Barcodes entgegennimmt, externe Produktdaten über die Open-Food-Facts-API abruft und diese Daten anschließend in die Produkt- und Lagerstrukturen von Odoo überführt. Odoo wird damit nicht als vollständige Standardlösung verwendet, sondern als ERP-Systembasis, die durch eine projektspezifische Erweiterung an den vorliegenden Anwendungsfall angepasst wird.
 
 
 \subsection{Produkt- und Lagerverwaltung in Odoo}
 
-Die Produktverwaltung in Odoo erfolgt über zentrale Produktmodelle, in denen grundlegende Produktstammdaten wie Produktbezeichnung, interne Referenz, Verkaufspreis, Kategorie und Barcode gespeichert werden können. Dabei wird zwischen Produktvorlagen und konkreten Produktvarianten unterschieden. Produktvorlagen dienen der Verwaltung allgemeiner Produktinformationen, während Produktvarianten spezifische Ausprägungen eines Produkts abbilden können.\autocite{odoo2026productmanagement}
+Die Produktverwaltung in Odoo erfolgt über zentrale Produktmodelle, in denen grundlegende Produktstammdaten wie Produktbezeichnung, Verkaufspreis, Kategorie und Barcode gespeichert werden können. Dabei wird zwischen Produktvorlagen und konkreten Produktvarianten unterschieden. Produktvorlagen dienen der Verwaltung allgemeiner Produktinformationen, während Produktvarianten spezifische Ausprägungen eines Produkts abbilden können.\autocite{odoo2026productmanagement}
 
 Für die Lagerverwaltung stellt Odoo das Inventory-Modul bereit. Dieses ermöglicht die Verwaltung von Lagerorten, Beständen, Wareneingängen, internen Umlagerungen und Warenausgängen. Lagerbewegungen werden systemseitig dokumentiert und mit den entsprechenden Produkten verknüpft. Dadurch können Bestände nicht isoliert, sondern im Zusammenhang mit den zugrunde liegenden Produktstammdaten verarbeitet werden.\autocite{odoo2026inventory}
 Im Kontext der vorliegenden Arbeit ist diese Verbindung zwischen Produkt- und Lagerverwaltung wesentlich. Ein Produkt, das durch das Custom-Submodul automatisch angelegt oder aktualisiert wird, kann anschließend unmittelbar in lagerbezogene Prozesse eingebunden werden. Dazu zählen beispielsweise die Zuordnung zu einem Lagerbestand, die spätere Verbuchung von Wareneingängen oder die Verwendung in Verkaufsprozessen. Die Produktdaten dienen somit als Stammdatenbasis für nachgelagerte ERP-Prozesse.
@@ -535,8 +537,12 @@ Für zukünftige Arbeiten ergeben sich mehrere Erweiterungsmöglichkeiten. Zum e
 \textbf{Nr.} & \textbf{KI-System} & \textbf{Einsatzzweck} \\ 
 \midrule
 1 & Google Gemini, Version X.X, Zugriff am TT.MM.JJJJ & Unterstützung bei der Formulierung von Textentwürfen zur Einleitung und zu konzeptionellen Grundlagen. Die übernommenen Inhalte wurden fachlich geprüft und überarbeitet. \\
-2 & ChatGPT, Version X.X, Zugriff am TT.MM.JJJJ & Unterstützung bei der formalen Strukturierung der LaTeX-Vorlage nach dem FOM-Leitfaden. \\
+2 & ChatGPT & Unterstützung bei der formalen Strukturierung der LaTeX-Vorlage nach dem FOM-Leitfaden. \\
 \bottomrule
+3 & ChatGPT & Vervollständige das Abkürzungsverzeichnis \\
+4 & ChatGPT & Schreibe stichpunkte zu diesen kapiteln, auf basis des programmierten moduls:
+4 Konzeption und Umsetzung des Barcode-API-Submoduls 4.1 Anforderungen an das Submodul 4.2 Prozessablauf vom Barcode-Scan bis zum Produktdatensatz 4.3 API-Abfrage und Datenübernahme aus Open Food Facts 4.4 Automatische Produktanlage in Odoo 4.5 Integration in Lagerprozesse
+
 \end{tabular} 
 
 \end{document}
