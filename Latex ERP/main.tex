@@ -65,6 +65,7 @@
 % GRAFIKEN, TABELLEN, MATHE
 % ---------------------------------------------------
 \usepackage{graphicx}
+\graphicspath{{../Screenshots/}}
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{caption}
@@ -80,6 +81,7 @@
 % Tabellen- und Abbildungsüberschriften oben
 \captionsetup[table]{position=top}
 \captionsetup[figure]{position=top}
+\newcommand{\figsource}{\caption*{\footnotesize Quelle: Eigene Darstellung}}
 
 % ---------------------------------------------------
 % CODE
@@ -428,6 +430,24 @@ Die im Prototyp verwendete Barcode-Funktionalität basiert nicht auf dem von Odo
 
 Die Produktverwaltung in Odoo erfolgt über zentrale Produktmodelle, in denen grundlegende Produktstammdaten wie Produktbezeichnung, Verkaufspreis, Kategorie und Barcode gespeichert werden können. Dabei wird zwischen Produktvorlagen und konkreten Produktvarianten unterschieden. Produktvorlagen dienen der Verwaltung allgemeiner Produktinformationen, während Produktvarianten spezifische Ausprägungen eines Produkts abbilden können.\autocite{odoo2026productmanagement}
 
+Abbildung \ref{fig:produkt-uebersicht} zeigt die Produktübersicht im Prototyp, während Abbildung \ref{fig:produkt-vendor} die Verknüpfung eines Produkts mit einem Lieferanten dokumentiert. Beide Ansichten sind für die spätere automatische Produktanlage und die Beschaffungslogik relevant.
+
+\begin{figure}[htbp]
+  \centering
+  \caption{Produktübersicht im Odoo-Prototyp}
+  \includegraphics[width=0.95\textwidth]{Produkt Übersicht.png}
+  \figsource
+  \label{fig:produkt-uebersicht}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \caption{Verknüpfung eines Produkts mit einem Lieferanten}
+  \includegraphics[width=0.95\textwidth]{Produkt mit Vendor Verknüpfen.png}
+  \figsource
+  \label{fig:produkt-vendor}
+\end{figure}
+
 Für die Lagerverwaltung stellt Odoo das Inventory-Modul bereit. Dieses ermöglicht die Verwaltung von Lagerorten, Beständen, Wareneingängen, internen Umlagerungen und Warenausgängen. Lagerbewegungen werden systemseitig dokumentiert und mit den entsprechenden Produkten verknüpft. Dadurch können Bestände nicht isoliert, sondern im Zusammenhang mit den zugrunde liegenden Produktstammdaten verarbeitet werden.\autocite{odoo2026inventory}
 Im Kontext der vorliegenden Arbeit ist diese Verbindung zwischen Produkt- und Lagerverwaltung wesentlich. Ein Produkt, das durch das Custom-Submodul automatisch angelegt oder aktualisiert wird, kann anschließend unmittelbar in lagerbezogene Prozesse eingebunden werden. Dazu zählen beispielsweise die Zuordnung zu einem Lagerbestand, die spätere Verbuchung von Wareneingängen oder die Verwendung in Verkaufsprozessen. Die Produktdaten dienen somit als Stammdatenbasis für nachgelagerte ERP-Prozesse.
 
@@ -450,6 +470,42 @@ Durch die Umsetzung als eigenständiges Submodul bleibt die Standardfunktionalit
   \item Optionale Übergabe an Verkaufsprozesse.
 \end{enumerate}
 
+  \subsection{Beschaffungsprozess und Lieferantenzuordnung}
+
+  Die prototypische Umsetzung berücksichtigt neben der reinen Produktanlage auch die Zuordnung zu Lieferanten und den nachgelagerten Einkaufsprozess in Odoo. Die folgenden Abbildungen zeigen exemplarisch, wie eine Bestellung erzeugt, bestätigt, validiert und anschließend als abgeschlossen dokumentiert wird.
+
+  \begin{figure}[htbp]
+    \centering
+    \caption{Erstellung einer Bestellung im Odoo-Prototyp}
+    \includegraphics[width=0.95\textwidth]{Bestellung erzeugen.png}
+    \figsource
+    \label{fig:bestellung-erzeugen}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \centering
+    \caption{Bestätigung einer Bestellung}
+    \includegraphics[width=0.95\textwidth]{Bestellung bestätigen.png}
+    \figsource
+    \label{fig:bestellung-bestaetigen}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \centering
+    \caption{Validierung einer Bestellung}
+    \includegraphics[width=0.95\textwidth]{Bestellung validieren.png}
+    \figsource
+    \label{fig:bestellung-validieren}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \centering
+    \caption{Abgeschlossene Bestellung im Beschaffungsprozess}
+    \includegraphics[width=0.95\textwidth]{Abgeschlossene Bestellung.png}
+    \figsource
+    \label{fig:abgeschlossene-bestellung}
+  \end{figure}
+
 \subsection{Erweiterung durch ein Custom-Submodul}
 
 Für die prototypische Implementierung werden Python 3.12, Odoo 19 On-Premise, PostgreSQL ab Version 12 sowie ein Odoo-Custom-Addon für die API-Integration verwendet. Python dient dabei als Programmiersprache für die Geschäftslogik des Submoduls. Odoo stellt die ERP-Systemumgebung bereit, während PostgreSQL als relationale Datenbank für die Speicherung der ERP-Daten genutzt wird. Das Custom-Addon übernimmt die technische Verbindung zwischen Barcode-Eingabe, API-Abfrage und Produktdatenverarbeitung innerhalb von Odoo.
@@ -465,6 +521,24 @@ Dieses Kapitel beschreibt die Konzeption und technische Umsetzung des Submoduls.
 Der Prozess beginnt mit der Erfassung eines Barcodes. Diese Erfassung kann über ein Barcode-fähiges Endgerät oder durch manuelle Eingabe erfolgen. Der Barcode wird anschließend vom Custom-Submodul entgegengenommen und als eindeutiges Identifikationsmerkmal für die weitere Verarbeitung genutzt. Im ersten Verarbeitungsschritt wird geprüft, ob in Odoo bereits ein Produktdatensatz mit diesem Barcode vorhanden ist. Diese Prüfung verhindert, dass identische Produkte mehrfach angelegt werden.
 
 Ist bereits ein Produkt mit dem erfassten Barcode vorhanden, können bestehende Informationen aktualisiert oder ergänzt werden. Ist kein entsprechender Datensatz vorhanden, wird auf Grundlage der extern abgerufenen Produktinformationen ein neuer Produktstammsatz angelegt. Der Prozess umfasst somit das Empfangen des Barcodes, den Aufruf des Custom-Addons, die Abfrage der externen Datenquelle, die Verarbeitung der API-Antwort sowie das Erstellen oder Aktualisieren des Produktdatensatzes in Odoo.
+
+Abbildung \ref{fig:barcode-import} zeigt die Erfassung des Barcodes im Importfenster, Abbildung \ref{fig:auto-produkt} die automatische Anlage des Produktdatensatzes nach der externen Datenanreicherung.
+
+\begin{figure}[htbp]
+  \centering
+  \caption{Barcode-Importfenster im Prototyp}
+  \includegraphics[width=0.95\textwidth]{Barcode Import Fenster.png}
+  \figsource
+  \label{fig:barcode-import}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \caption{Automatisch angelegtes Produkt nach der API-Verarbeitung}
+  \includegraphics[width=0.95\textwidth]{Automatisch angelegtes Produkt.png}
+  \figsource
+  \label{fig:auto-produkt}
+\end{figure}
 
 \subsection{API-Abfrage und Datenübernahme aus Open Food Facts}
 
@@ -483,6 +557,24 @@ Die übernommene Datenstruktur muss mit den Datenmodellen von Odoo kompatibel se
 Sobald ein Produkt in Odoo vorhanden ist, kann es im Inventory-Modul verwendet werden. Dadurch wird es möglich, das Produkt in Wareneingängen zu verbuchen, Lagerbewegungen zu dokumentieren, Bestände zu verwalten oder das Produkt im Rahmen von Kommissionierungsprozessen auszulagern. Die automatische Produktanlage bildet damit die Grundlage für eine anschließende lagerbezogene Verarbeitung.
 
 Die Integration in Lagerprozesse beruht darauf, dass Produktstammdaten und Lagerdaten im ERP-System miteinander verknüpft sind. Ein durch das Custom-Submodul angelegtes oder aktualisiertes Produkt kann dadurch denselben Prozessen zugeführt werden wie ein manuell angelegtes Produkt. Zusätzlich können die Produktdaten im Sales-Modul für Bestellungen und Verkaufsprozesse genutzt werden. Die Schnittstelle zwischen Barcode-Erfassung, externer Produktdatenquelle und Odoo-Produktmodell ermöglicht somit einen durchgängigen Prozess von der Produktidentifikation bis zur ERP-internen Weiterverarbeitung.
+
+Die Abbildung \ref{fig:inventory-bestellfortschritt} dokumentiert den Bestellfortschritt im Inventory-Kontext; Abbildung \ref{fig:inventory-abgeschlossen} zeigt den abgeschlossenen Zustand nach der Verarbeitung.
+
+\begin{figure}[htbp]
+  \centering
+  \caption{Inventory-Übersicht mit Bestellfortschritt}
+  \includegraphics[width=0.95\textwidth]{Inventory Übersicht mit Bestellfortschritt.png}
+  \figsource
+  \label{fig:inventory-bestellfortschritt}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \caption{Abgeschlossene Bestellung im Inventory-Kontext}
+  \includegraphics[width=0.95\textwidth]{Abgeschlossene Bestellung.png}
+  \figsource
+  \label{fig:inventory-abgeschlossen}
+\end{figure}
 
 \section{Analyse der Lösung}
 
