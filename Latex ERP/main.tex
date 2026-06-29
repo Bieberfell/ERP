@@ -403,22 +403,15 @@ Dieses Kapitel beschreibt funktionale und nichtfunktionale Anforderungen, die al
 
 \subsection{Anforderungen an das Submodul}
 
-\begin{itemize}
-    \item Erfassung eines Barcodes über ein Endgerät.
-    \item Abfrage der Produktdaten über die Open-Food-Facts-API.
-    \item Automatische Erstellung oder Aktualisierung eines Produkts in Odoo.
-    \item Zuordnung des Artikels zum Lagerbestand.
-    \item Unterstützung des Verkaufsprozesses im Sales-Modul.
-\end{itemize}
+An das Submodul werden sowohl funktionale als auch nichtfunktionale Anforderungen gestellt. Im Mittelpunkt steht zunächst die Erfassung eines Barcodes über ein geeignetes Endgerät. Dieser Barcode dient als eindeutiger Identifikator für das jeweilige Produkt und bildet die Grundlage für die anschließende Datenabfrage. Über die Open-Food-Facts-API werden die zugehörigen Produktinformationen abgerufen, sofern der Barcode in der Datenbank vorhanden ist. Die empfangenen Produktdaten sollen anschließend automatisiert verarbeitet und in Odoo übernommen werden.
 
-\subsection{Nichtfunktionale Anforderungen}
+Innerhalb des ERP-Systems muss das Submodul in der Lage sein, ein neues Produkt automatisch anzulegen oder ein bereits vorhandenes Produkt zu aktualisieren. Dadurch wird sichergestellt, dass die Informationen eines Produktes  nicht manuell gepflegt werden müssen und der Datenbestand im System aktuell bleibt. Zusätzlich ist eine Zuordnung des Artikels zum Lagerbestand erforderlich, damit das Produkt nicht nur als Stammdatensatz existiert, sondern auch in den operativen Lagerprozessen verwendet werden kann. Damit wird eine Verbindung zwischen Produktidentifikation, Stammdatenverwaltung und Bestandsführung hergestellt.
 
-\begin{itemize}
-    \item Performante Verarbeitung von API-Antworten.
-    \item Fehlertoleranz bei nicht bekannten Barcodes.
-    \item Erweiterbarkeit für weitere Datenquellen.
-    \item Konsistente Datenhaltung im ERP-System.
-\end{itemize}
+Darüber hinaus muss das Submodul den Verkaufsprozess im Sales-Modul unterstützen. Die erfassten und gepflegten Produktdaten sollen daher so bereitgestellt werden, dass sie für Verkaufsangebote, Aufträge und weitere vertriebsbezogene Prozesse nutzbar sind. Das Submodul übernimmt damit eine Schnittstellenfunktion zwischen externer Produktdatenquelle, interner Warenwirtschaft und Verkaufsabwicklung.
+
+Es sind auch mehrere nichtfunktionale Anforderungen zu berücksichtigen. Die Verarbeitung der API-Antworten muss performant erfolgen, damit Barcode-Erfassung und Produktanlage ohne spürbare Verzögerungen durchgeführt werden können. Gleichzeitig ist Fehlertoleranz erforderlich, insbesondere bei Barcodes, die in der Open-Food-Facts-Datenbank nicht bekannt sind oder bei denen unvollständige Produktdaten zurückgegeben werden. In solchen Fällen muss das System kontrolliert reagieren und darf keine inkonsistenten Datensätze erzeugen.
+
+Zudem soll das Submodul erweiterbar gestaltet werden, sodass künftig weitere Datenquellen ergänzt werden können. Eine feste Bindung an eine einzelne externe API wäre daher zu vermeiden. Abschließend ist eine konsistente Datenhaltung im ERP-System sicherzustellen. Produktdaten, Lagerinformationen und vertriebsrelevante Angaben müssen eindeutig, widerspruchsfrei und nachvollziehbar gespeichert werden, damit das Submodul zuverlässig in die bestehenden Odoo-Prozesse integriert werden kann.
 
 \section{Odoo als Systembasis}
 
