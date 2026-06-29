@@ -398,11 +398,6 @@ Die API ermöglicht insbesondere den Zugriff auf Angaben wie Zutaten und Nährwe
 
 \section{Anforderungsanalyse}
 
-Dieses Kapitel beschreibt funktionale und nichtfunktionale Anforderungen, die als Grundlage für die Implementierung dienen.
-
-
-\subsection{Anforderungen an das Submodul}
-
 An das Submodul werden sowohl funktionale als auch nichtfunktionale Anforderungen gestellt. Im Mittelpunkt steht zunächst die Erfassung eines Barcodes über ein geeignetes Endgerät. Dieser Barcode dient als eindeutiger Identifikator für das jeweilige Produkt und bildet die Grundlage für die anschließende Datenabfrage. Über die Open-Food-Facts-API werden die zugehörigen Produktinformationen abgerufen, sofern der Barcode in der Datenbank vorhanden ist. Die empfangenen Produktdaten sollen anschließend automatisiert verarbeitet und in Odoo übernommen werden.
 
 Innerhalb des ERP-Systems muss das Submodul in der Lage sein, ein neues Produkt automatisch anzulegen oder ein bereits vorhandenes Produkt zu aktualisieren. Dadurch wird sichergestellt, dass die Informationen eines Produktes  nicht manuell gepflegt werden müssen und der Datenbestand im System aktuell bleibt. Zusätzlich ist eine Zuordnung des Artikels zum Lagerbestand erforderlich, damit das Produkt nicht nur als Stammdatensatz existiert, sondern auch in den operativen Lagerprozessen verwendet werden kann. Damit wird eine Verbindung zwischen Produktidentifikation, Stammdatenverwaltung und Bestandsführung hergestellt.
