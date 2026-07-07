@@ -143,6 +143,30 @@
       \field{title}{Enterprise Resource Planning: Architektur, Funktionen und Management von ERP-Systemen}
       \field{year}{2017}
     \endentry
+    \entry{ISOIEC15420}{online}{}{}
+      \list{organization}{1}{%
+        {ISO}%
+      }
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{url}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Information technology — Automatic identification and data capture techniques — EAN/UPC bar code symbology specification}
+      \field{langid}{english}
+      \field{shorttitle}{{{ISO}}/{{IEC}} 15420}
+      \field{title}{{{ISO}}/{{IEC}} 15420:2025}
+      \field{urlday}{7}
+      \field{urlmonth}{7}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.iso.org/standard/84892.html
+      \endverb
+      \verb{url}
+      \verb https://www.iso.org/standard/84892.html
+      \endverb
+    \endentry
     \entry{krcmar2022}{book}{}{}
       \name{author}{1}{}{%
         {{hash=97558c30684fb70538b0efcd39836dfd}{%
@@ -205,6 +229,43 @@
       \field{labeltitlesource}{title}
       \field{title}{Datenqualität und Stammdatenmanagement}
       \field{year}{2020}
+    \endentry
+    \entry{EinfuhrungERPSystemeSpringer}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=48d5c4bdcb6a17f8214211bf018b7228}{%
+           family={Niedermeier},
+           familyi={N\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{48d5c4bdcb6a17f8214211bf018b7228}
+      \strng{fullhash}{48d5c4bdcb6a17f8214211bf018b7228}
+      \strng{fullhashraw}{48d5c4bdcb6a17f8214211bf018b7228}
+      \strng{bibnamehash}{48d5c4bdcb6a17f8214211bf018b7228}
+      \strng{authorbibnamehash}{48d5c4bdcb6a17f8214211bf018b7228}
+      \strng{authornamehash}{48d5c4bdcb6a17f8214211bf018b7228}
+      \strng{authorfullhash}{48d5c4bdcb6a17f8214211bf018b7228}
+      \strng{authorfullhashraw}{48d5c4bdcb6a17f8214211bf018b7228}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{url}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Einführung in {{ERP-Systeme}} | {{Springer Nature Link}}}
+      \field{urlday}{7}
+      \field{urlmonth}{7}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb C:\Users\leo\Zotero\storage\C4CSVFMP\978-3-658-47758-5_2.html
+      \endverb
+      \verb{urlraw}
+      \verb https://link.springer.com/chapter/10.1007/978-3-658-47758-5_2
+      \endverb
+      \verb{url}
+      \verb https://link.springer.com/chapter/10.1007/978-3-658-47758-5_2
+      \endverb
     \endentry
     \entry{odoo2026inventory}{misc}{}{}
       \name{author}{1}{}{%
@@ -300,6 +361,43 @@
       \endverb
       \verb{url}
       \verb https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp/inventory/product_management.html
+      \endverb
+    \endentry
+    \entry{OdooDocumentationOdoo}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=3687a6b2ce735fa274675202926d88df}{%
+           family={{Odoo S.A.}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{3687a6b2ce735fa274675202926d88df}
+      \strng{fullhash}{3687a6b2ce735fa274675202926d88df}
+      \strng{fullhashraw}{3687a6b2ce735fa274675202926d88df}
+      \strng{bibnamehash}{3687a6b2ce735fa274675202926d88df}
+      \strng{authorbibnamehash}{3687a6b2ce735fa274675202926d88df}
+      \strng{authornamehash}{3687a6b2ce735fa274675202926d88df}
+      \strng{authorfullhash}{3687a6b2ce735fa274675202926d88df}
+      \strng{authorfullhashraw}{3687a6b2ce735fa274675202926d88df}
+      \field{extraname}{4}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradate}{4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{url}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Odoo {{Documentation}} — {{Odoo}} 19.0 Documentation}
+      \field{urlday}{7}
+      \field{urlmonth}{7}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb C:\Users\leo\Zotero\storage\EVPND2MW\index.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.odoo.com/documentation/19.0/index.html
+      \endverb
+      \verb{url}
+      \verb https://www.odoo.com/documentation/19.0/index.html
       \endverb
     \endentry
     \entry{openfoodfacts2026api}{misc}{}{}
