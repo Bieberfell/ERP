@@ -8,6 +8,8 @@
 % GRUNDSPRACHE & SCHRIFT
 % ---------------------------------------------------
 \usepackage[ngerman]{babel}
+\usepackage[ddmmyyyy]{datetime}
+\renewcommand{\dateseparator}{.}
 \usepackage{iftex}
 \ifPDFTeX
     \usepackage[T1]{fontenc}
@@ -91,6 +93,19 @@
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{caption}
+
+\let\originalincludegraphics\includegraphics
+\RenewDocumentCommand{\includegraphics}{O{}m}{%
+  \IfFileExists{#2}{%
+    \IfBlankTF{#1}{%
+      \originalincludegraphics{#2}%
+    }{%
+      \originalincludegraphics[#1]{#2}%
+    }%
+  }{%
+    \fbox{\parbox[c][4cm][c]{0.9\linewidth}{\centering Datei fehlt: #2}}%
+  }%
+}
 
 \captionsetup{
     font=normalsize,
@@ -202,6 +217,16 @@
 
 % Punktreihen im Abbildungs- und Tabellenverzeichnis
 \renewcommand{\cftfigleader}{\tocdirectdots}
+\renewcommand{\cfttableader}{\tocdirectdots}
+
+% Bezeichnungen im Abbildungs- und Tabellenverzeichnis wie im FOM-Leitfaden
+\renewcommand{\cftfigpresnum}{Abbildung~}
+\renewcommand{\cftfigaftersnum}{:}
+\setlength{\cftfignumwidth}{6.8em}
+
+\renewcommand{\cfttabpresnum}{Tabelle~}
+\renewcommand{\cfttabaftersnum}{:}
+\setlength{\cfttabnumwidth}{5.8em}
 
 % Seitenzahlen ohne feste Box direkt hinter den Punkten
 \renewcommand{\cftsecfillnum}[1]{%
@@ -218,6 +243,24 @@
 
 \renewcommand{\cftfigfillnum}[1]{%
   {\cftfigleader}{\cftfigpagefont #1}\cftfigafterpnum\par
+}
+
+% Codeverzeichnis: Nummernspalte und Punktlinie im Stil der Verzeichnisse
+\newlength{\lstnumwidthfom}
+\setlength{\lstnumwidthfom}{2.8em}
+
+\newcommand{\lstnumberlinefom}[1]{%
+  \makebox[\lstnumwidthfom][l]{#1}%
+}
+
+\renewcommand*{\l@lstlisting}[2]{%
+  \par\noindent
+  \begingroup
+    \let\numberline\lstnumberlinefom
+    \normalfont #1%
+  \endgroup
+  \tocdirectdots
+  {\normalfont #2}\par
 }
 
 \makeatother
@@ -327,7 +370,7 @@ Name: & Lorenz Chylka, Leonard Reglin \\
 Matrikelnummer: & 736986, 740270 \\
 Studiengang: & Wirtschaftsinformatik \\
 Semester: & 6. Semester \\
-Abgabedatum: & TT.MM.JJJJ \\
+Abgabedatum: & \today \\
 Wörter Hausarbeit: & 5.391 \\
 \end{tabular}
 \end{flushleft}
@@ -360,12 +403,20 @@ In diesem Text wird aus Gründen der Lesbarkeit und Tradition häufig die maskul
 
 \begin{tabular}{@{}ll@{}}
 API & Application Programming Interface \\
+CSV & Comma-Separated Values \\
 EAN & European Article Number \\
 ERP & Enterprise Resource Planning \\
 GTIN & Global Trade Item Number \\
+HTTP & Hypertext Transfer Protocol \\
 IEC & International Electrotechnical Commission \\
 ISO & International Organization for Standardization \\
+JSON & JavaScript Object Notation \\
+KI & Künstliche Intelligenz \\
+ORM & Object-Relational Mapping \\
 REST & Representational State Transfer \\
+SQL & Structured Query Language \\
+UI & User Interface \\
+XML & Extensible Markup Language \\
 
 \end{tabular}
 
@@ -379,23 +430,25 @@ REST & Representational State Transfer \\
 
 \section{Einleitung}
 
-Die fortschreitende Digitalisierung von betrieblichen Wertschöpfungsprozessen führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme (Enterprise Resource Planning) angewiesen sind. Diese werden genutzt. um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse und Entscheidungen sind. \autocite[Vgl.][]{krcmar2022}
+Die formale Gestaltung dieser Arbeit orientiert sich am Leitfaden zur formalen Gestaltung von Seminar- und Abschlussarbeiten der FOM Hochschule in der Fassung vom Januar 2024.
+
+Die fortschreitende Digitalisierung von betrieblichen Wertschöpfungsprozessen führt dazu, dass Unternehmen in zunehmendem Maße auf integrierte ERP-Systeme (Enterprise Resource Planning) angewiesen sind. Diese werden genutzt, um Datenkonsistenz, Prozessqualität und operative Effizienz sicherzustellen. Besonders im Einzelhandel und in der Lebensmittelbranche besteht ein hoher Bedarf an aktuellen, strukturierten und fehlerfreien Produktstammdaten, da diese unmittelbar Grundlage für logistische, kaufmännische und kundenbezogene Prozesse und Entscheidungen sind. \autocite[Vgl.][]{krcmar2022}
 
 Für kleine und mittlere Unternehmen stellt die manuelle Pflege dieser Stammdaten jedoch eine erhebliche Belastung dar. Uneinheitliche Datenquellen, redundante Datenerfassungen und fehlende Standardisierung führen zu inkonsistenten Datensätzen, Medienbrüchen und betrieblichen Ineffizienzen. \autocite[Vgl.][]{gronau2017} Da fehlerhafte oder unvollständige Stammdaten unmittelbare Auswirkungen auf Lagerprozesse, Verkaufsabläufe und betriebliche Entscheidungen haben, gilt das Stammdatenmanagement als ein kritischer Erfolgsfaktor für ERP-basierte Prozessautomatisierung. Hochwertige Daten bilden die Voraussetzung dafür, dass ERP-Systeme wie Odoo zuverlässig arbeiten und automatisierte Prozesse korrekt ausgeführt werden können \autocite[Vgl.][]{lausen2020}.
 
-ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden. \autocite[Vgl.][]{davenport1998} Insbesondere im Bereich des Bestands- und Lagermanagements, sowie im Stammdatenmanagement tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten. \autocite[Vgl.][]{romney2018}
+ERP-Systeme ermöglichen dabei die integrierte Abbildung zentraler Unternehmensprozesse und stellen eine einheitliche Datenbasis für verschiedene Funktionsbereiche bereit. Durch die zentrale Speicherung und Verarbeitung von Informationen können Redundanzen reduziert und Transparenz innerhalb der Organisation erhöht werden. \autocite[Vgl.][]{davenport1998} Insbesondere im Bereich des Bestands- und Lagermanagements sowie im Stammdatenmanagement tragen ERP-Systeme dazu bei, die Genauigkeit von Inventardaten zu verbessern und operative Abläufe effizienter zu gestalten. \autocite[Vgl.][]{romney2018}
 
 Darüber hinaus ermöglichen ERP-Systeme eine Echtzeitverarbeitung von Daten und fördern die bereichsübergreifende Zusammenarbeit innerhalb der Supply Chain. Studien zeigen, dass der Einsatz von ERP-Systemen signifikant zur Verbesserung der operativen Effizienz beitragen kann, da Prozesse besser koordiniert und Informationsflüsse optimiert werden können. \autocite[Vgl.][]{chopra2016} Insbesondere durch die Automatisierung wiederkehrender Aufgaben und die Integration verschiedener Unternehmensbereiche können Fehlerquellen reduziert und Entscheidungsprozesse beschleunigt werden. \autocite[Vgl.][]{chang2014}
 
 In der Lagerlogistik spielt die Qualität der Produktstammdaten eine zentrale Rolle. Fehlende oder inkonsistente Daten führen häufig zu falschen Bestandsbuchungen, ineffizienten Auftragsabwicklungen und erhöhten Kosten entlang der gesamten Lieferkette. Moderne ERP-Systeme ermöglichen eine präzisere Steuerung von Beständen und eine bessere Nachverfolgbarkeit von Warenströmen. \autocite[Vgl.][]{chopra2016}
 
-Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung von Produktinformationen. Offene Datenbanken wie open-food-facts stellen strukturierte und maschinenlesbare Produktdaten bereit, die über standardisierte Schnittstellen, sogenannte API's (Application Programming Interface), abgerufen werden können. Diese Entwicklung eröffnet neue Möglichkeiten zur Automatisierung der Stammdatenpflege und zur Reduktion manueller Eingaben, wodurch sowohl die Datenqualität als auch die Prozesseffizienz nachhaltig verbessert werden können. \autocite[Vgl.][]{openfoodfacts2026barcode}
+Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung von Produktinformationen. Offene Datenbanken wie Open-Food-Facts stellen strukturierte und maschinenlesbare Produktdaten bereit, die über standardisierte Schnittstellen, sogenannte APIs (Application Programming Interfaces), abgerufen werden können. Diese Entwicklung eröffnet neue Möglichkeiten zur Automatisierung der Stammdatenpflege und zur Reduktion manueller Eingaben, wodurch sowohl die Datenqualität als auch die Prozesseffizienz nachhaltig verbessert werden können. \autocite[Vgl.][]{openfoodfacts2026barcode}
 
 \subsection{Problemstellung}
 
 Im Lebensmitteleinzelhandel müssen Produktstammdaten wie Produktbezeichnungen, Herstellerinformationen, Zutatenlisten, Allergenkennzeichnungen, Nährwerttabellen sowie EAN- und GTIN-Barcodes (EAN: European Article Number; GTIN: Global Trade Item Number) kontinuierlich aktualisiert werden, da sie die Grundlage für zahlreiche betriebliche Prozesse bilden. Die manuelle Erfassung dieser Informationen ist jedoch zeitintensiv, fehleranfällig und bindet erhebliche personelle Ressourcen. In der Praxis führt dies häufig zu inkonsistenten oder unvollständigen Datensätzen, redundanten Datenbeständen in unterschiedlichen Systemen sowie zu Übertragungsfehlern bei der Pflege und Aktualisierung der Informationen.
 
-Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht. \autocite[Vgl.][]{gronau2017} Gleichzeitig bieten offene Produktdatenbanken wie open-food-facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern. \autocite[Vgl.][]{gronau2017}
+Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht. \autocite[Vgl.][]{gronau2017} Gleichzeitig bieten offene Produktdatenbanken wie Open-Food-Facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern. \autocite[Vgl.][]{gronau2017}
 
 \subsection{Zielsetzung der Arbeit}
 
@@ -407,7 +460,7 @@ Die Arbeit untersucht insgesamt, in welchem Ausmaß der Einsatz externer Datenqu
 
 \section{Grundlagen}
 
-Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind.
+Dieses Kapitel stellt zentrale Fachbegriffe und technologische Grundlagen bereit, die für die spätere Analyse und Implementierung erforderlich sind. Hierzu werden zunächst ERP-Systeme und Produktstammdaten betrachtet. Anschließend werden Barcodes und die Open-Food-Facts-API eingeordnet, da diese Elemente die technische Grundlage des entwickelten Prototyps bilden.
 
 \subsection{ERP-Systeme und Produktstammdaten}
 
@@ -419,7 +472,7 @@ Relevante Module für die vorliegende Arbeit sind:
     \item \textbf{Inventory (Lagerverwaltung)} - Verwaltung von Beständen und Lagerbewegungen.
     \item \textbf{Sales (Vertrieb)} - Auftragsabwicklung und Versandprozesse.
     \item \textbf{Purchase (Einkauf)} - Bestell- und Beschaffungsprozesse.
-    \item \textbf{Barcode-Modul} - Eigen erstelltes Modul zur Verarbeitung gescannter Barcodes und Aktionen in Odoo. \autocite[Vgl.][]{OdooDocumentationOdoo}
+    \item \textbf{Barcode-Modul} -- Eigens erstelltes Modul zur Verarbeitung gescannter Barcodes und Aktionen in Odoo. \autocite[Vgl.][]{OdooDocumentationOdoo}
 \end{itemize}
 
 \subsection{Barcodes und Produktidentifikation}
@@ -428,7 +481,7 @@ Barcodes, beispielsweise EAN-13, sind standardisierte maschinenlesbare Produktke
 
 \subsection{Schnittstellen und Open-Food-Facts-API}
 
-open-food-facts ist eine offene, kollaborative Lebensmitteldatenbank, in der Produktinformationen wie Zutaten, Allergene, Nährwertangaben und weitere Angaben von Produktverpackungen erfasst werden. Die Datenbank wird als Open Data bereitgestellt und kann nach Angaben der Plattform von Dritten weiterverwendet werden \autocite{openfoodfacts2026api}. Für technische Anwendungen stellt open-food-facts eine API bereit, über die produktbezogene Informationen automatisiert abgerufen werden können.
+Open-Food-Facts ist eine offene, kollaborative Lebensmitteldatenbank, in der Produktinformationen wie Zutaten, Allergene, Nährwertangaben und weitere Angaben von Produktverpackungen erfasst werden. Die Datenbank wird als Open Data bereitgestellt und kann nach Angaben der Plattform von Dritten weiterverwendet werden \autocite{openfoodfacts2026api}. Für technische Anwendungen stellt Open-Food-Facts eine API bereit, über die produktbezogene Informationen automatisiert abgerufen werden können.
 
 \begin{lstlisting}[caption={API-Endpunkt für Produktabfragen über Barcode}]
 https://world.openfoodfacts.org/api/v0/product/{barcode}.json
@@ -440,7 +493,7 @@ Die API ermöglicht insbesondere den Zugriff auf Angaben wie Zutaten und Nährwe
 
 An das Submodul werden sowohl funktionale als auch nichtfunktionale Anforderungen gestellt. Im Mittelpunkt steht zunächst die Erfassung eines Barcodes über ein geeignetes Endgerät. Dieser Barcode dient als eindeutiger Identifikator für das jeweilige Produkt und bildet die Grundlage für die anschließende Datenabfrage. Über die Open-Food-Facts-API werden die zugehörigen Produktinformationen abgerufen, sofern der Barcode in der Datenbank vorhanden ist. Die empfangenen Produktdaten sollen anschließend automatisiert verarbeitet und in Odoo übernommen werden.
 
-Innerhalb des ERP-Systems muss das Submodul in der Lage sein, ein neues Produkt automatisch anzulegen oder ein bereits vorhandenes Produkt zu aktualisieren. Dadurch wird sichergestellt, dass die Informationen eines Produktes  nicht manuell gepflegt werden müssen und der Datenbestand im System aktuell bleibt. Zusätzlich ist eine Zuordnung des Artikels zum Lagerbestand erforderlich, damit das Produkt nicht nur als Stammdatensatz existiert, sondern auch in den operativen Lagerprozessen verwendet werden kann. Damit wird eine Verbindung zwischen Produktidentifikation, Stammdatenverwaltung und Bestandsführung hergestellt.
+Innerhalb des ERP-Systems muss das Submodul in der Lage sein, ein neues Produkt automatisch anzulegen oder ein bereits vorhandenes Produkt zu aktualisieren. Dadurch wird sichergestellt, dass die Informationen eines Produkts nicht manuell gepflegt werden müssen und der Datenbestand im System aktuell bleibt. Zusätzlich ist eine Zuordnung des Artikels zum Lagerbestand erforderlich, damit das Produkt nicht nur als Stammdatensatz existiert, sondern auch in den operativen Lagerprozessen verwendet werden kann. Damit wird eine Verbindung zwischen Produktidentifikation, Stammdatenverwaltung und Bestandsführung hergestellt.
 
 Darüber hinaus muss das Submodul den Verkaufsprozess im Sales-Modul unterstützen. Die erfassten und gepflegten Produktdaten sollen daher so bereitgestellt werden, dass sie für Verkaufsangebote, Aufträge und weitere vertriebsbezogene Prozesse nutzbar sind. Das Submodul übernimmt damit eine Schnittstellenfunktion zwischen externer Produktdatenquelle, interner Warenwirtschaft und Verkaufsabwicklung.
 
@@ -486,14 +539,14 @@ Zur Umsetzung der automatisierten Produktanlage wird Odoo durch ein eigenständi
 
 Die technische Erweiterbarkeit von Odoo wird durch das modulare Entwicklungsmodell ermöglicht. Ein Odoo-Modul besteht typischerweise aus einer Manifest-Datei, Python-Dateien für die Geschäftslogik sowie XML-Dateien zur Definition von Ansichten, Menüs und weiteren Konfigurationen.\autocite{odoo2026orm} Die Geschäftslogik wird über Python-Klassen umgesetzt, die auf das Object-Relational-Mapping von Odoo zugreifen. Dadurch können bestehende Datenmodelle erweitert oder neue Modelle definiert werden.\autocite{odoo2026orm}
 
-Das entwickelte Custom-Submodul wird zwischen Barcode-Erfassung, externer API-Abfrage und Produktverwaltung positioniert. Nach Eingabe eines Barcodes wird zunächst geprüft, ob in Odoo bereits ein Produkt mit diesem Barcode existiert. Falls ein entsprechender Datensatz vorhanden ist, können die vorhandenen Informationen aktualisiert oder ergänzt werden. Falls kein Produkt gefunden wird, wird ein neuer Produktstammsatz angelegt. Die über die Open-Food-Facts-API abgerufenen Daten werden dabei auf die relevanten Felder des Odoo-Produktmodells abgebildet. Hierzu zählen insbesondere Produktname, Marke, Barcode und weitere verfügbare Produktinformationen.
+Das entwickelte Custom-Submodul ist zwischen Barcode-Erfassung, externer API-Abfrage und Produktverwaltung positioniert. Nach Eingabe eines Barcodes wird zunächst geprüft, ob in Odoo bereits ein Produkt mit diesem Barcode existiert. Falls ein entsprechender Datensatz vorhanden ist, können die vorhandenen Informationen aktualisiert oder ergänzt werden. Falls kein Produkt gefunden wird, wird ein neuer Produktstammsatz angelegt. Die über die Open-Food-Facts-API abgerufenen Daten werden dabei auf die relevanten Felder des Odoo-Produktmodells abgebildet. Hierzu zählen insbesondere Produktname, Marke, Barcode und weitere verfügbare Produktinformationen.
 
 Durch die Umsetzung als eigenständiges Submodul bleibt die Standardfunktionalität von Odoo unverändert. Dieses Vorgehen reduziert Abhängigkeiten vom Kernsystem und erleichtert spätere Anpassungen. Gleichzeitig kann die Lösung erweitert werden, etwa durch zusätzliche Datenquellen, weitere Validierungsregeln oder eine detailliertere Zuordnung von Produktinformationen zu Lager- und Verkaufsprozessen. Das Custom-Submodul übernimmt damit die Rolle einer Integrationskomponente zwischen externer Produktdatenquelle und ERP-interner Stammdatenverwaltung.
 
 
 \begin{enumerate}
   \item Barcode-Eingabe.
-  \item API-Request zu open-food-facts.
+  \item API-Request zu Open-Food-Facts.
   \item Mapping der Daten auf Odoo-Modelle.
   \item Speicherung von Produkt und Lagerbestand.
   \item Optionale Übergabe an Verkaufsprozesse.
@@ -543,7 +596,7 @@ Die Erweiterung wird so konzipiert, dass die API-Integration nicht direkt im Odo
 
 \section{Konzeption und Umsetzung des Barcode-API-Submoduls}
 
-Dieses Kapitel beschreibt die Konzeption und technische Umsetzung des Submoduls. Der Schwerpunkt liegt auf dem Prozessablauf vom Barcode-Scan bis zum Produktdatensatz, der API-Integration und der Einbindung der erzeugten oder aktualisierten Produktdaten in Odoo.
+Dieses Kapitel beschreibt die Konzeption und technische Umsetzung des Submoduls. Der Schwerpunkt liegt auf dem Prozessablauf vom Barcode-Scan bis zum Produktdatensatz, der API-Integration und der Einbindung der erzeugten oder aktualisierten Produktdaten in Odoo. Zunächst wird der fachliche Ablauf der Barcode-Erfassung erläutert. Darauf aufbauend werden die API-Abfrage, die Datenübernahme und die Integration in Lagerprozesse beschrieben.
 
 \subsection{Prozessablauf vom Barcode-Scan bis zum Produktdatensatz}
 
@@ -569,7 +622,7 @@ Abbildung \ref{fig:barcode-import} zeigt die Erfassung des Barcodes im Importfen
   \figsource
 \end{figure}
 
-\subsection{API-Abfrage und Datenübernahme aus open-food-facts}
+\subsection{API-Abfrage und Datenübernahme aus Open-Food-Facts}
 
 Die produktbezogene Datenabfrage erfolgt über einen Python-Service, der anhand des Barcodes eine Anfrage an die Open-Food-Facts-API sendet. Die Anfrage nutzt die Barcode-basierte Produktressource der API. Der technische Aufruf kann vereinfacht wie folgt dargestellt werden:
 
@@ -577,7 +630,7 @@ Die produktbezogene Datenabfrage erfolgt über einen Python-Service, der anhand 
 GET /api/v0/product/{barcode}.json
 \end{lstlisting}
 
-Nach Eingang der API-Antwort werden die relevanten Datenfelder extrahiert und auf die entsprechenden Odoo-Modelle übertragen. Dazu gehören insbesondere Produktname, Hersteller- beziehungsweise Markeninformationen, Barcode sowie verfügbare Nährwert- und Produktinformationen. Die Datenübernahme erfolgt nicht ungeprüft, sondern muss berücksichtigen, dass externe Datensätze unvollständig sein können. Daher ist eine Verarbeitung erforderlich, die fehlende Felder erkennt und nur geeignete Informationen in die Produktverwaltung überführt. \autocite{openfoodfacts2026api}
+Nach Eingang der API-Antwort werden die relevanten Datenfelder extrahiert und auf die entsprechenden Odoo-Modelle übertragen. Dazu gehören insbesondere Produktname, Hersteller- beziehungsweise Markeninformationen, Barcode sowie verfügbare Nährwert- und Produktinformationen. Die Datenübernahme erfolgt nicht ungeprüft; dabei muss berücksichtigt werden, dass externe Datensätze unvollständig sein können. Daher ist eine Verarbeitung erforderlich, die fehlende Felder erkennt und nur geeignete Informationen in die Produktverwaltung überführt. \autocite{openfoodfacts2026api}
 
 Die übernommene Datenstruktur muss mit den Datenmodellen von Odoo kompatibel sein. Aus diesem Grund werden die aus der API erhaltenen Informationen in ein internes Mapping überführt. Dieses Mapping legt fest, welche API-Felder welchen Odoo-Feldern entsprechen. Auf dieser Grundlage können Produktdaten erstellt, aktualisiert und anschließend in nachgelagerten Prozessen verwendet werden.
 
@@ -606,6 +659,8 @@ Die Abbildung \ref{fig:inventory-bestellfortschritt} dokumentiert den Bestellfor
 \end{figure}
 
 \section{Technische Analyse des Custom-Submoduls}
+
+Die technische Analyse vertieft die zuvor beschriebene Umsetzung auf Ebene des Odoo-Addons. Dabei werden Struktur, Datenmodelle, Persistenzlogik, API-Zugriff und Fehlerbehandlung betrachtet. Ziel ist es, die Funktionsweise des Prototyps nachvollziehbar darzustellen und die Konsistenz der technischen Umsetzung zu bewerten.
 
 \subsection{Modulstruktur und Einordnung}
 
@@ -698,7 +753,7 @@ def _upsert_product(self, barcode, product_data):
   return existing_product
 \end{lstlisting}
 
-Die Persistenz der Zusatzdaten erfolgt anschließend in \texttt{barcode.off.product}. Die Methode legt einen vorhandenen Datensatz per \texttt{search} auf Basis der Produktvorlage zurück und schreibt ihn bei Bedarf mit \texttt{write} fort. Falls noch kein Datensatz existiert, wird er neu erstellt.
+Die Persistenz der Zusatzdaten erfolgt anschließend in \texttt{barcode.off.product}. Die Methode ruft einen vorhandenen Datensatz per \texttt{search} auf Basis der Produktvorlage ab und schreibt ihn bei Bedarf mit \texttt{write} fort. Falls noch kein Datensatz existiert, wird er neu erstellt.
 \pagebreak
 \begin{lstlisting}[caption={Mapping der API-Felder auf Odoo-Felder}, label={lst:off-mapping}]
 off_vals = {
@@ -725,7 +780,7 @@ Das Mapping zeigt, dass die Integration nicht auf den Barcode reduziert ist. Vie
 
 \subsection{API-Aufruf, Validierung und Fehlerbehandlung}
 
-Der API-Zugriff ist zweistufig abgesichert. Zunächst wird der Barcode normalisiert, indem ein zwölfstelliger EAN-12-Code bei Bedarf mit führender Null ergänzt und ein dreizehnstelliger Code mit führender Null alternativ gekürzt wird. Anschließend werden zwei API-Versionen probiert, nämlich \texttt{/api/v2/} und \texttt{/api/v0/}. Zusätzlich setzt der Code einen expliziten User-Agent und einen JSON-Accept-Header, weil open-food-facts generische Clients ablehnen kann.
+Der API-Zugriff ist zweistufig abgesichert. Zunächst wird der Barcode normalisiert, indem ein zwölfstelliger EAN-12-Code bei Bedarf mit führender Null ergänzt und ein dreizehnstelliger Code mit führender Null alternativ gekürzt wird. Anschließend werden zwei API-Versionen probiert, nämlich \texttt{/api/v2/} und \texttt{/api/v0/}. Zusätzlich setzt der Code einen expliziten User-Agent und einen JSON-Accept-Header, weil Open-Food-Facts generische Clients ablehnen kann.
 
 \begin{lstlisting}[caption={Robuster Abruf von Open-Food-Facts-Daten}, label={lst:off-fetch}]
 def _fetch_off_product(self, barcode):
@@ -813,7 +868,6 @@ Für zukünftige Arbeiten ergeben sich mehrere Erweiterungsmöglichkeiten. Zum e
 
 \newpage
 \section*{Internetquellen}
-\addcontentsline{toc}{section}{Internetquellen}
 
 \printbibliography[
     heading=none,
@@ -853,7 +907,7 @@ Für zukünftige Arbeiten ergeben sich mehrere Erweiterungsmöglichkeiten. Zum e
 
 2 & ChatGPT & Kannst du mir helfen, die Problemstellung der manuellen Produktstammdatenpflege im Lebensmitteleinzelhandel wissenschaftlich zu formulieren? Wichtig sind vor allem die Fehleranfälligkeit, fehlende Standards, doppelte Datenerfassung und die Bedeutung von Barcodes. \\
 
-3 & ChatGPT & räzisiere die Zielsetzung meiner Arbeit. In der Arbeit werden die Barcode-Erfassung, die Open-Food-Facts-API und verschiedene Odoo-Prozesse zu einer prototypischen End-to-End-Architektur verbunden. \\
+3 & ChatGPT & Präzisiere die Zielsetzung meiner Arbeit. In der Arbeit werden die Barcode-Erfassung, die Open-Food-Facts-API und verschiedene Odoo-Prozesse zu einer prototypischen End-to-End-Architektur verbunden. \\
 
 4 & ChatGPT & Ich benötige einen kurzen Grundlagenabschnitt für meine Seminararbeit. Darin sollen ERP-Systeme, Produktstammdaten, Barcodes und API-Schnittstellen erklärt und als Grundlage für die spätere Implementierung eingeordnet werden. \\
 
@@ -866,7 +920,7 @@ Für zukünftige Arbeiten ergeben sich mehrere Erweiterungsmöglichkeiten. Zum e
 8 & ChatGPT & Kannst du mir helfen, das entwickelte Submodul technisch als Odoo-Addon einzuordnen? Dabei sollen das Manifest, die Modelle, die Views und die Sicherheitsdatei erklärt und die einzelnen Schichten voneinander abgegrenzt werden. \\
 
 
-9 & GitHub Copilot & Hilf mir bei der Erstellung der Datei \texttt{\_\_manifest\_\_.py} für mein Odoo-Addon zur Integration von Open-Food Facts. Das Addon benötigt die Module \texttt{product}, \texttt{stock} und \texttt{web}. Außerdem müssen die Security- und View-Dateien korrekt eingebunden werden. \\
+9 & GitHub Copilot & Hilf mir bei der Erstellung der Datei \texttt{\_\_manifest\_\_.py} für mein Odoo-Addon zur Integration von Open-Food-Facts. Das Addon benötigt die Module \texttt{product}, \texttt{stock} und \texttt{web}. Außerdem müssen die Security- und View-Dateien korrekt eingebunden werden. \\
 
 10 & GitHub Copilot & Ich möchte in Odoo ein persistentes Modell mit dem Namen \texttt{barcode.off.product} erstellen. Es soll unter anderem Barcode, Marke, Menge, Bild-URL, Zutaten, Allergene, Nährwerte, Scores, Labels und die vollständigen Rohdaten der API speichern. Unterstütze mich bei der Umsetzung des Modells. \\
 
@@ -878,8 +932,9 @@ Für zukünftige Arbeiten ergeben sich mehrere Erweiterungsmöglichkeiten. Zum e
 
 14 & GitHub Copilot & Hilf mir bei der Validierungslogik für einen Odoo-Wizard. Der eingegebene Barcode soll geprüft werden. Anschließend sollen die Produktdaten abgerufen und das Produkt entweder erstellt oder aktualisiert werden. Optional soll auch ein Lagerbestand gebucht werden können. Fehler sollen verständlich über \texttt{UserError} ausgegeben werden. \\
 
-15 & ChatGPT & Nutze die open food facts Internetseite, um sie als quelle in der seminararbeit zu verwenden. Liefere die textausschnitte in denen die verwendet werden \\
+15 & ChatGPT & Nutze die Open-Food-Facts-Internetseite, um sie als Quelle in der Seminararbeit zu verwenden. Liefere die Textausschnitte, in denen diese verwendet werden \\
 
+16 & DeepLWrite & Umschreiben des gesamten Textes. \\
 \bottomrule
 \end{longtable}
 
