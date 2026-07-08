@@ -151,10 +151,9 @@
       \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{url}
-      \field{labeltitlesource}{shorttitle}
+      \field{labeltitlesource}{title}
       \field{abstract}{Information technology — Automatic identification and data capture techniques — EAN/UPC bar code symbology specification}
       \field{langid}{english}
-      \field{shorttitle}{{{ISO}}/{{IEC}} 15420}
       \field{title}{{{ISO}}/{{IEC}} 15420:2025}
       \field{urlday}{7}
       \field{urlmonth}{7}

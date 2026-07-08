@@ -1,11 +1,30 @@
+% !TeX program = lualatex
+% !TeX encoding = UTF-8
+% !BIB program = biber
+
 \documentclass[12pt,a4paper]{article}
 
 % ---------------------------------------------------
 % GRUNDSPRACHE & SCHRIFT
 % ---------------------------------------------------
 \usepackage[ngerman]{babel}
-\usepackage{fontspec}
-\setmainfont{Times New Roman}
+\usepackage{iftex}
+\ifPDFTeX
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{newtxtext}
+\else
+    \usepackage{fontspec}
+    \IfFontExistsTF{Times New Roman}{%
+        \setmainfont{Times New Roman}%
+    }{%
+        \IfFontExistsTF{TeX Gyre Termes}{%
+            \setmainfont{TeX Gyre Termes}%
+        }{%
+            \setmainfont{DejaVu Serif}%
+        }%
+    }
+\fi
 
 % ---------------------------------------------------
 % SEITENLAYOUT
@@ -440,17 +459,17 @@ Abbildung \ref{fig:produkt-uebersicht} zeigt die Produktübersicht im Prototyp, 
 \begin{figure}[htbp]
   \centering
   \caption{Produktübersicht im Odoo-Prototyp}
+  \label{fig:produkt-uebersicht}
   \includegraphics[width=0.95\textwidth]{Produkt Übersicht.png}
   \figsource
-  \label{fig:produkt-uebersicht}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \caption{Verknüpfung eines Produkts mit einem Lieferanten}
+  \label{fig:produkt-vendor}
   \includegraphics[width=0.95\textwidth]{Produkt mit Vendor Verknüpfen.png}
   \figsource
-  \label{fig:produkt-vendor}
 \end{figure}
 \pagebreak
 Für die Lagerverwaltung stellt Odoo das Inventory-Modul bereit. Dieses ermöglicht die Verwaltung von Lagerorten, Beständen, Wareneingängen, internen Umlagerungen und Warenausgängen. Lagerbewegungen werden systemseitig dokumentiert und mit den entsprechenden Produkten verknüpft. Dadurch können Bestände nicht isoliert, sondern im Zusammenhang mit den zugrunde liegenden Produktstammdaten verarbeitet werden.\autocite{odoo2026inventory}
@@ -482,33 +501,33 @@ Durch die Umsetzung als eigenständiges Submodul bleibt die Standardfunktionalit
   \begin{figure}[htbp]
     \centering
     \caption{Erstellung einer Bestellung im Odoo-Prototyp}
+    \label{fig:bestellung-erzeugen}
     \includegraphics[width=0.95\textwidth]{Bestellung erzeugen.png}
     \figsource
-    \label{fig:bestellung-erzeugen}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
     \caption{Bestätigung einer Bestellung}
+    \label{fig:bestellung-bestaetigen}
     \includegraphics[width=0.95\textwidth]{Bestellung bestätigen.png}
     \figsource
-    \label{fig:bestellung-bestaetigen}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
     \caption{Validierung einer Bestellung}
+    \label{fig:bestellung-validieren}
     \includegraphics[width=0.95\textwidth]{Bestellung validieren.png}
     \figsource
-    \label{fig:bestellung-validieren}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
     \caption{Abgeschlossene Bestellung im Beschaffungsprozess}
+    \label{fig:abgeschlossene-bestellung}
     \includegraphics[width=0.95\textwidth]{Abgeschlossene Bestellung.png}
     \figsource
-    \label{fig:abgeschlossene-bestellung}
   \end{figure}
 
 \subsection{Erweiterung durch ein Custom-Submodul}
@@ -532,17 +551,17 @@ Abbildung \ref{fig:barcode-import} zeigt die Erfassung des Barcodes im Importfen
 \begin{figure}[htbp]
   \centering
   \caption{Barcode-Importfenster im Prototyp}
+  \label{fig:barcode-import}
   \includegraphics[width=0.95\textwidth]{Barcode Import Fenster.png}
   \figsource
-  \label{fig:barcode-import}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \caption{Automatisch angelegtes Produkt nach der API-Verarbeitung}
+  \label{fig:auto-produkt}
   \includegraphics[width=0.95\textwidth]{Automatisch angelegtes Produkt.png}
   \figsource
-  \label{fig:auto-produkt}
 \end{figure}
 
 \subsection{API-Abfrage und Datenübernahme aus open-food-facts}
@@ -568,17 +587,17 @@ Die Abbildung \ref{fig:inventory-bestellfortschritt} dokumentiert den Bestellfor
 \begin{figure}[htbp]
   \centering
   \caption{Inventory-Übersicht mit Bestellfortschritt}
+  \label{fig:inventory-bestellfortschritt}
   \includegraphics[width=0.95\textwidth]{Inventory Übersicht mit Bestellfortschritt.png}
   \figsource
-  \label{fig:inventory-bestellfortschritt}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \caption{Abgeschlossene Bestellung im Inventory-Kontext}
+  \label{fig:inventory-abgeschlossen}
   \includegraphics[width=0.95\textwidth]{Abgeschlossene Bestellung.png}
   \figsource
-  \label{fig:inventory-abgeschlossen}
 \end{figure}
 
 \section{Technische Analyse des Custom-Submoduls}
@@ -856,7 +875,7 @@ Für zukünftige Arbeiten ergeben sich mehrere Erweiterungsmöglichkeiten. Zum e
 
 15 & ChatGPT & Nutze die open food facts Internetseite, um sie als quelle in der seminararbeit zu verwenden. Liefere die textausschnitte in denen die verwendet werden \\
 
-\bottomrule
+\bottomrule<
 \end{longtable}
 
 \end{document}
