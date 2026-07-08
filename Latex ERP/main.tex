@@ -66,7 +66,8 @@
 % ---------------------------------------------------
 \usepackage{graphicx}
 \usepackage{xcolor}
-\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
 \graphicspath{{../Screenshots/}}
 \usepackage{booktabs}
 \usepackage{amsmath}
@@ -128,9 +129,9 @@
 % ZITATE, LINKS, VERZEICHNISSE
 % ---------------------------------------------------
 \usepackage{csquotes}
+\usepackage[hidelinks]{hyperref}
 \usepackage[nottoc]{tocbibind}
 \usepackage{tocloft}
-\usepackage[hidelinks]{hyperref}
 
 % Inhaltsverzeichnis nur bis Ebene 2 anzeigen:
 % section und subsection, also z. B. 1 und 1.1
@@ -239,6 +240,7 @@
 \usepackage[
 backend=biber,
 style=authoryear,
+citestyle=authoryear,
 autocite=footnote,
 sorting=nyt,
 maxcitenames=2,
@@ -253,17 +255,20 @@ url=true
 
 \addbibresource{literatur.bib}
 
-\DefineBibliographyStrings{ngerman}{
-  andothers = {et al.},
-  page = {S.},
-  pages = {S.}
-}
+\setlength{\bibhang}{1cm}
+\setlength{\bibitemsep}{0.5\baselineskip}
+\setlength{\bibparsep}{0pt}
+
+\renewcommand*{\bibfont}{\singlespacing}
+
+\renewcommand*{\finentrypunct}{}
 
 \renewcommand*{\postnotedelim}{\addcomma\space}
 
 % ---------------------------------------------------
 % DOKUMENTBEGINN
 % ---------------------------------------------------
+\hypersetup{pageanchor=false}
 \begin{document}
 
 % ---------------------------------------------------
@@ -344,6 +349,7 @@ REST & Representational State Transfer \\
 % TEXTTEIL: ARABISCHE SEITENZAHLEN
 % ---------------------------------------------------
 \newpage
+\hypersetup{pageanchor=true}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
@@ -365,7 +371,7 @@ Gleichzeitig steigt die Bedeutung externer Datenquellen für die Anreicherung vo
 
 Im Lebensmitteleinzelhandel müssen Produktstammdaten wie Produktbezeichnungen, Herstellerinformationen, Zutatenlisten, Allergenkennzeichnungen, Nährwerttabellen sowie EAN- und GTIN-Barcodes (EAN: European Article Number; GTIN: Global Trade Item Number) kontinuierlich aktualisiert werden, da sie die Grundlage für zahlreiche betriebliche Prozesse bilden. Die manuelle Erfassung dieser Informationen ist jedoch zeitintensiv, fehleranfällig und bindet erhebliche personelle Ressourcen. In der Praxis führt dies häufig zu inkonsistenten oder unvollständigen Datensätzen, redundanten Datenbeständen in unterschiedlichen Systemen sowie zu Übertragungsfehlern bei der Pflege und Aktualisierung der Informationen.
 
-Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht. \autocite[Vgl.][]{gronau2017} Gleichzeitig bieten offene Produktdatenbanken wie open-food-facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern. \autocite[Vgl.][]{EinfuhrungERPSystemeSpringer}
+Wissenschaftliche Untersuchungen zeigen, dass eine unzureichende Datenqualität in ERP-Systemen maßgeblich zu ineffizienten Geschäftsprozessen, Fehlentscheidungen und erhöhten Prozesskosten beiträgt, was die steigende Relevanz eines strukturierten und qualitativ hochwertigen Stammdatenmanagements unterstreicht. \autocite[Vgl.][]{gronau2017} Gleichzeitig bieten offene Produktdatenbanken wie open-food-facts standardisierte, strukturierte und maschinenlesbare Produktinformationen, die einen geeigneten Ansatzpunkt für die Automatisierung der Stammdatenpflege darstellen und dadurch das Potenzial besitzen, die Qualität und Aktualität von Produktdaten erheblich zu verbessern. \autocite[Vgl.][]{gronau2017}
 
 \subsection{Zielsetzung der Arbeit}
 
@@ -771,55 +777,86 @@ Für zukünftige Arbeiten ergeben sich mehrere Erweiterungsmöglichkeiten. Zum e
 \phantomsection
 \addcontentsline{toc}{section}{Codeverzeichnis}
 \lstlistoflistings
-
 % ---------------------------------------------------
 % LITERATURVERZEICHNIS
 % ---------------------------------------------------
 \newpage
-\printbibliography[heading=bibintoc, title={Literaturverzeichnis}]
-\phantomsection
+\printbibliography[
+    heading=bibintoc,
+    title={Literaturverzeichnis},
+    notkeyword=internet
+]
+
+\newpage
+\section*{Internetquellen}
+\addcontentsline{toc}{section}{Internetquellen}
+
+\printbibliography[
+    heading=none,
+    keyword=internet
+]
+
 % ---------------------------------------------------
 % KI-HILFSMITTELVERZEICHNIS
 % ---------------------------------------------------
-\renewcommand{\arraystretch}{0.92}
+\newpage
 \section*{KI-Hilfsmittelverzeichnis}
 \addcontentsline{toc}{section}{KI-Hilfsmittelverzeichnis}
-\vspace{-0.75\baselineskip}
+
+\renewcommand{\arraystretch}{0.92}
 \noindent\small
 \setlength{\tabcolsep}{2pt}
-\begin{tabularx}{\textwidth}{@{}p{0.9cm}p{3.2cm}X@{}}
+
+\begin{longtable}{
+    @{}
+    p{0.9cm}
+    p{3.2cm}
+    >{\RaggedRight\arraybackslash}
+    p{\dimexpr\textwidth-5.0cm\relax}
+    @{}
+}
 \toprule
 \textbf{Nr.} & \textbf{KI-System} & \textbf{Einsatzzweck} \\
 \midrule
-1 & ChatGPT & Formuliere einen wissenschaftlichen Einstieg für die Einleitung einer Seminararbeit zur End-to-End-Automatisierung von Produkt- und Lagerprozessen in Odoo. Berücksichtige ERP-Systeme, Produktstammdaten, Digitalisierung und Prozessqualität. \\
+\endfirsthead
 
-2 & ChatGPT & Beschreibe die Problemstellung der manuellen Produktstammdatenpflege im Lebensmitteleinzelhandel. Gehe auf Fehleranfälligkeit, fehlende Standardisierung, redundante Datenerfassung und die Rolle von Barcodes ein. \\
+\toprule
+\textbf{Nr.} & \textbf{KI-System} & \textbf{Einsatzzweck} \\
+\midrule
+\endhead
 
-3 & ChatGPT & Formuliere eine Zielsetzung für eine Seminararbeit, in der Barcode-Erfassung, Open-Food-Facts-API und Odoo-Prozesse zu einer prototypischen End-to-End-Architektur verbunden werden. \\
+1 & ChatGPT & Ich brauche Unterstützung beim Einstieg in die Einleitung meiner Seminararbeit. Das Thema ist die End-to-End-Automatisierung von Produkt- und Lagerprozessen in Odoo. ERP-Systeme, Produktstammdaten, Digitalisierung und Prozessqualität sollten kurz eingeordnet werden. \\
 
-4 & ChatGPT & Schreibe einen kurzen Grundlagenabschnitt, der ERP-Systeme, Produktstammdaten, Barcodes und API-Schnittstellen als theoretische Basis der späteren Implementierung einordnet. \\
+2 & ChatGPT & Kannst du mir helfen, die Problemstellung der manuellen Produktstammdatenpflege im Lebensmitteleinzelhandel wissenschaftlich zu formulieren? Wichtig sind vor allem die Fehleranfälligkeit, fehlende Standards, doppelte Datenerfassung und die Bedeutung von Barcodes. \\
 
-5 & ChatGPT & Erstelle einen wissenschaftlich formulierten Abschnitt zur Anforderungsanalyse eines Odoo-Submoduls, das Barcodes verarbeitet, externe Produktdaten abruft und Produkte automatisiert anlegt oder aktualisiert. \\
+3 & ChatGPT & räzisiere die Zielsetzung meiner Arbeit. In der Arbeit werden die Barcode-Erfassung, die Open-Food-Facts-API und verschiedene Odoo-Prozesse zu einer prototypischen End-to-End-Architektur verbunden. \\
 
-6 & ChatGPT & Beschreibe Odoo als technische Systembasis für einen Prototypen mit Produktverwaltung, Inventory-Modul, Sales-Modul und projektspezifischer Erweiterung durch ein Custom-Addon. \\
+4 & ChatGPT & Ich benötige einen kurzen Grundlagenabschnitt für meine Seminararbeit. Darin sollen ERP-Systeme, Produktstammdaten, Barcodes und API-Schnittstellen erklärt und als Grundlage für die spätere Implementierung eingeordnet werden. \\
 
-7 & ChatGPT & Formuliere den Einstieg in das Kapitel zur Konzeption und Umsetzung des Barcode-API-Submoduls. Der Fokus soll auf dem Prozess vom Barcode-Scan bis zum Produktdatensatz liegen. \\
+5 & ChatGPT & Kannst du meine Anforderungsanalyse für ein Odoo-Submodul wissenschaftlich ausformulieren? Das Submodul soll Barcodes verarbeiten, Produktdaten aus einer externen API abrufen und Produkte in Odoo automatisch anlegen oder aktualisieren. \\
 
-8 & ChatGPT & Formuliere eine technische Einordnung des Custom-Submoduls als Odoo-Addon mit Manifest, Modellen, Views und Sicherheitsdatei. Stelle die Schichten klar voneinander getrennt dar. \\
+6 & ChatGPT & Hilf mir bitte bei der Beschreibung der technischen Systembasis meines Prototyps. Odoo soll mit seiner Produktverwaltung, dem Inventory-Modul und dem Sales-Modul vorgestellt werden. Zusätzlich soll erklärt werden, dass die Funktionen durch ein eigenes Custom-Addon erweitert werden. \\
 
-9 & GitHub Copilot & Unterstütze bei der Strukturierung einer \texttt{\_\_manifest\_\_.py} für ein Odoo-Addon zur Open-Food-Facts-Integration. Berücksichtige Abhängigkeiten zu \texttt{product}, \texttt{stock} und \texttt{web} sowie die Einbindung von Security- und View-Dateien. \\
+7 & ChatGPT & Ich brauche einen passenden Einstieg für das Kapitel zur Konzeption und Umsetzung des Barcode-API-Submoduls. Im Mittelpunkt soll der Ablauf vom Einscannen eines Barcodes bis zur Erstellung oder Aktualisierung des Produktdatensatzes stehen. \\
 
-10 & GitHub Copilot & Erzeuge einen Odoo-Modellcode für ein persistentes Modell \texttt{barcode.off.product}, das Barcode, Marke, Menge, Bild-URL, Zutaten, Allergene, Nährwerte, Scores, Labels und Rohdaten der API speichern kann. \\
-
-11 & GitHub Copilot & Entwickle einen Python-Codeausschnitt für eine Odoo-Upsert-Logik, die anhand eines Barcodes ein bestehendes Produkt sucht, vorhandene Produktvorlagen aktualisiert oder andernfalls ein neues Produkt erzeugt. \\
-
-12 & GitHub Copilot & Unterstütze bei der Erstellung eines Mapping-Dictionaries, das relevante Felder aus der Open-Food-Facts-API auf Odoo-Felder überträgt und zusätzlich die vollständige JSON-Antwort speichert. \\
-
-13 & GitHub Copilot & Schreibe eine robuste Python-Funktion zum Abruf von Open-Food-Facts-Produktdaten. Berücksichtige Barcode-Varianten, API-Versionen \texttt{/api/v2/} und \texttt{/api/v0/}, Header, Timeout, HTTP-Statuscodes und JSON-Validierung. \\
-
-14 & GitHub Copilot & Erzeuge einen Codeausschnitt für die Validierung im Odoo-Wizard: Barcode prüfen, Produktdaten abrufen, Produkt anlegen oder aktualisieren, optional Lagerbestand buchen und fachliche Fehlermeldungen über \texttt{UserError} ausgeben. \\
+8 & ChatGPT & Kannst du mir helfen, das entwickelte Submodul technisch als Odoo-Addon einzuordnen? Dabei sollen das Manifest, die Modelle, die Views und die Sicherheitsdatei erklärt und die einzelnen Schichten voneinander abgegrenzt werden. \\
 
 
-\end{tabularx}
+9 & GitHub Copilot & Hilf mir bei der Erstellung der Datei \texttt{\_\_manifest\_\_.py} für mein Odoo-Addon zur Integration von Open-Food Facts. Das Addon benötigt die Module \texttt{product}, \texttt{stock} und \texttt{web}. Außerdem müssen die Security- und View-Dateien korrekt eingebunden werden. \\
+
+10 & GitHub Copilot & Ich möchte in Odoo ein persistentes Modell mit dem Namen \texttt{barcode.off.product} erstellen. Es soll unter anderem Barcode, Marke, Menge, Bild-URL, Zutaten, Allergene, Nährwerte, Scores, Labels und die vollständigen Rohdaten der API speichern. Unterstütze mich bei der Umsetzung des Modells. \\
+
+11 & GitHub Copilot & Erstelle mit mir eine Upsert-Logik für Odoo. Anhand des Barcodes soll zunächst geprüft werden, ob bereits ein Produkt existiert. Falls ja, soll die vorhandene Produktvorlage aktualisiert werden. Andernfalls soll ein neues Produkt angelegt werden. \\
+
+12 & GitHub Copilot & Hilf mir bei einem Mapping-Dictionary für die Daten aus der Open-Food-Facts-API. Werte aus der API-Antwort sollen den passenden Odoo-Feldern zugeordnet werden \\
+
+13 & GitHub Copilot & Ich benötige eine Python-Funktion, um Produktdaten aus der Open-Food-Facts-API abzurufen. Dabei sollen unterschiedliche Barcode-Formate, die Endpunkte \texttt{/api/v2/} und \texttt{/api/v0/}, geeignete Header, ein Timeout, verschiedene HTTP-Statuscodes und ungültige JSON-Antworten berücksichtigt werden. \\
+
+14 & GitHub Copilot & Hilf mir bei der Validierungslogik für einen Odoo-Wizard. Der eingegebene Barcode soll geprüft werden. Anschließend sollen die Produktdaten abgerufen und das Produkt entweder erstellt oder aktualisiert werden. Optional soll auch ein Lagerbestand gebucht werden können. Fehler sollen verständlich über \texttt{UserError} ausgegeben werden. \\
+
+15 & ChatGPT & Nutze die open food facts Internetseite, um sie als quelle in der seminararbeit zu verwenden. Liefere die textausschnitte in denen die verwendet werden \\
+
+\bottomrule
+\end{longtable}
 
 \end{document}

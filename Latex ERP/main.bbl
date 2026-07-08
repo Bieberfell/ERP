@@ -166,6 +166,7 @@
       \verb{url}
       \verb https://www.iso.org/standard/84892.html
       \endverb
+      \keyw{internet}
     \endentry
     \entry{krcmar2022}{book}{}{}
       \name{author}{1}{}{%
@@ -230,43 +231,6 @@
       \field{title}{Datenqualität und Stammdatenmanagement}
       \field{year}{2020}
     \endentry
-    \entry{EinfuhrungERPSystemeSpringer}{online}{}{}
-      \name{author}{1}{}{%
-        {{hash=48d5c4bdcb6a17f8214211bf018b7228}{%
-           family={Niedermeier},
-           familyi={N\bibinitperiod},
-           given={Andreas},
-           giveni={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{48d5c4bdcb6a17f8214211bf018b7228}
-      \strng{fullhash}{48d5c4bdcb6a17f8214211bf018b7228}
-      \strng{fullhashraw}{48d5c4bdcb6a17f8214211bf018b7228}
-      \strng{bibnamehash}{48d5c4bdcb6a17f8214211bf018b7228}
-      \strng{authorbibnamehash}{48d5c4bdcb6a17f8214211bf018b7228}
-      \strng{authornamehash}{48d5c4bdcb6a17f8214211bf018b7228}
-      \strng{authorfullhash}{48d5c4bdcb6a17f8214211bf018b7228}
-      \strng{authorfullhashraw}{48d5c4bdcb6a17f8214211bf018b7228}
-      \field{sortinit}{N}
-      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{url}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Einführung in {{ERP-Systeme}} | {{Springer Nature Link}}}
-      \field{urlday}{7}
-      \field{urlmonth}{7}
-      \field{urlyear}{2026}
-      \field{urldateera}{ce}
-      \verb{file}
-      \verb C:\Users\leo\Zotero\storage\C4CSVFMP\978-3-658-47758-5_2.html
-      \endverb
-      \verb{urlraw}
-      \verb https://link.springer.com/chapter/10.1007/978-3-658-47758-5_2
-      \endverb
-      \verb{url}
-      \verb https://link.springer.com/chapter/10.1007/978-3-658-47758-5_2
-      \endverb
-    \endentry
     \entry{odoo2026inventory}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=3687a6b2ce735fa274675202926d88df}{%
@@ -298,6 +262,7 @@
       \verb{url}
       \verb https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp/inventory.html
       \endverb
+      \keyw{internet}
     \endentry
     \entry{odoo2026orm}{misc}{}{}
       \name{author}{1}{}{%
@@ -330,6 +295,7 @@
       \verb{url}
       \verb https://www.odoo.com/documentation/19.0/developer/reference/backend/orm.html
       \endverb
+      \keyw{internet}
     \endentry
     \entry{odoo2026productmanagement}{misc}{}{}
       \name{author}{1}{}{%
@@ -362,6 +328,7 @@
       \verb{url}
       \verb https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp/inventory/product_management.html
       \endverb
+      \keyw{internet}
     \endentry
     \entry{OdooDocumentationOdoo}{online}{}{}
       \name{author}{1}{}{%
@@ -399,6 +366,7 @@
       \verb{url}
       \verb https://www.odoo.com/documentation/19.0/index.html
       \endverb
+      \keyw{internet}
     \endentry
     \entry{openfoodfacts2026api}{misc}{}{}
       \name{author}{1}{}{%
@@ -435,6 +403,7 @@
       \verb{url}
       \verb https://openfoodfacts.github.io/openfoodfacts-server/api/
       \endverb
+      \keyw{internet}
     \endentry
     \entry{openfoodfacts2026barcode}{misc}{}{}
       \name{author}{1}{}{%
@@ -471,6 +440,7 @@
       \verb{url}
       \verb https://openfoodfacts.github.io/openfoodfacts-server/api/tutorial-off-api/
       \endverb
+      \keyw{internet}
     \endentry
     \entry{romney2018}{article}{}{}
       \name{author}{2}{}{%
