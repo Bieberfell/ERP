@@ -166,6 +166,12 @@
 \setlength{\cftbeforetoctitleskip}{0pt}
 \setlength{\cftaftertoctitleskip}{12pt}
 
+% Überschrift des Abbildungsverzeichnisses identisch formatieren
+\renewcommand{\cftloftitlefont}{\normalfont\bfseries\fontsize{12}{14}\selectfont}
+\renewcommand{\cftafterloftitle}{\par\vspace{12pt}}
+\setlength{\cftbeforeloftitleskip}{0pt}
+\setlength{\cftafterloftitleskip}{12pt}
+
 % Schrift der Einträge im Inhaltsverzeichnis:
 % normal, nicht fett
 \renewcommand{\cftsecfont}{\normalfont}
@@ -875,7 +881,7 @@ Für zukünftige Arbeiten ergeben sich mehrere Erweiterungsmöglichkeiten. Zum e
 
 15 & ChatGPT & Nutze die open food facts Internetseite, um sie als quelle in der seminararbeit zu verwenden. Liefere die textausschnitte in denen die verwendet werden \\
 
-\bottomrule<
+\bottomrule
 \end{longtable}
 
 \end{document}
