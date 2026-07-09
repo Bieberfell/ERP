@@ -1,13 +1,8 @@
-# ERP-System
-##Aufteilung
-Lorenz 1 Einleitung 1.1 Problemstellung 1.2 Zielsetzung und Aufbau der Arbeit 2 Grundlagen 2.1 ERP-Systeme und Produktstammdaten 2.2 Barcodes und Produktidentifikation 2.3 Schnittstellen und Open-Food-Facts-API 
+# ERP-System: Barcode-gestützte Produktverwaltung
 
-Leonard 3 Odoo als Systembasis 3.1 Produkt- und Lagerverwaltung in Odoo 3.2 Erweiterung durch ein Custom-Submodul 4 Konzeption und Umsetzung des Barcode-API-Submoduls 4.1 Anforderungen an das Submodul 4.2 Prozessablauf vom Barcode-Scan bis zum Produktdatensatz 4.3 API-Abfrage und Datenübernahme aus Open Food Facts 4.4 Automatische Produktanlage in Odoo 4.5 Integration in Lagerprozesse 
-
-Zusammen 5 Analyse der Lösung 5.1 Vorteile gegenüber manueller Produktpflege 5.2 Grenzen, Fehlerfälle und Datenqualität 6 Fazit und Ausblick
 ## Projektbeschreibung
 
-Automatisierte Warenverwaltung via Barcode-Scanning:
+Automatisierte Warenverwaltung via Barcode-Scanning mit Integration von Open Food Facts:
 
 ```
 Barcode scannen
@@ -60,16 +55,17 @@ Barcode scannen
 ### Voraussetzungen
 
 - **Python 3.12** (oder neuer)
-- **PostgreSQL 12+** (bereits installiert unter `C:\Program Files\Odoo 19.0.20260318\PostgreSQL`)
+- **PostgreSQL 13+** (wird mit Odoo mitgeliefert)
 - **Git**
+- **Windows PowerShell 5.1+**
 
-### 1. Repository clonen / im Verzeichnis navigieren
+### 1. Verzeichnis navigieren
 
 ```powershell
-cd D:\ERP-System\odoo
+cd C:\playground\ERP\odoo
 ```
 
-### 2. Python Virtual Environment erstellen
+### 2. Python Virtual Environment erstellen (falls noch nicht vorhanden)
 
 ```powershell
 py -3.12 -m venv .venv
@@ -77,73 +73,96 @@ py -3.12 -m venv .venv
 
 Falls `py -3.12` nicht funktioniert: Python 3.12 installieren (https://www.python.org/downloads/)
 
-### 3. Dependencies installieren
+### 3. Virtual Environment aktivieren
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install --upgrade pip setuptools wheel
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\Activate.ps1
+```
+
+**Hinweis:** Falls ein ExecutionPolicy-Fehler auftritt:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+```
+
+### 4. Python-Abhängigkeiten installieren
+
+```powershell
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt
+```
+
+**Zusatzpaket** (wegen `account_peppol` Abhängigkeit):
+
+```powershell
+python -m pip install phonenumbers
 ```
 
 **Hinweis:** Dauer ~3-5 Minuten, abhängig von Internetverbindung.
 
-### 4. Konfiguration überprüfen
+### 5. Konfiguration überprüfen
 
 Die Datei `odoo/odoo.conf` sollte folgende Werte haben:
 
 ```ini
 [options]
+admin_passwd = admin
 db_host = localhost
 db_port = 5432
 db_user = openpg
 db_password = openpgpwd
 http_interface = 127.0.0.1
-http_port = 8069
-addons_path = D:\ERP-System\odoo\addons
+http_port = 8070
+addons_path = C:\playground\ERP\odoo\addons
 ```
 
 Falls nicht vorhanden, wird sie automatisch beim ersten Start erstellt.
 
-### 5. Datenbank initialisieren (nur beim ersten Mal)
+### 6. Datenbank initialisieren (nur beim ersten Mal)
 
 ```powershell
-cd D:\ERP-System\odoo
-.\.venv\Scripts\python.exe odoo-bin -c odoo.conf -d erp_dev -i base --stop-after-init
+python odoo-bin -c odoo.conf -d erp_dev -i base --stop-after-init
 ```
 
-Das installiert das base-Modul und erstellt alle notwendigen Tabellen. Dauer: ~30-60 Sekunden.
+Das installiert das base-Modul und erstellt alle notwendigen Tabellen. Dauer: ~1-2 Minuten.
 
-### 6. Odoo starten
+### 7. Odoo starten
 
 ```powershell
-cd D:\ERP-System\odoo
-.\.venv\Scripts\python.exe odoo-bin -c odoo.conf -d erp_dev
+python odoo-bin -c odoo.conf -d erp_dev --http-port=8070
+```
+
+**⚠️ WICHTIG:** Vor dem Start die PowerShell-Umgebungsvariable `PGPASSWORD` leeren (falls gesetzt):
+
+```powershell
+Remove-Item Env:PGPASSWORD -ErrorAction SilentlyContinue
 ```
 
 Expected Output:
 ```
 INFO ? odoo: Odoo version 19.0
-INFO ? odoo.service.server: HTTP service (werkzeug) running on ...8069
+INFO ? odoo.service.server: HTTP service (werkzeug) running on http://127.0.0.1:8070
 ```
 
-### 7. Im Browser öffnen
+### 8. Im Browser öffnen
 
-Navigiere zu: **http://127.0.0.1:8069**
+Navigiere zu: **http://127.0.0.1:8070**
 
-- **Datenbank:** erp_dev
-- **Email:** (siehe Setup-Dialog)
-- **Passwort:** (siehe Setup-Dialog)
+Login-Daten siehe Setup-Dialog beim ersten Zugriff.
 
 ---
 
 ## Barcode OFF Feature nutzen
 
-### Module aufgraden (nach Code-Aenderungen)
+### Status: MVP implementiert
 
-Wenn du die Scanner- oder Fallback-Features testen willst, fuehre das Upgrade aus:
+Das Custom-Addon `barcode_open_food_facts` ist derzeit nicht im Repository tracked (untracked local addon).  
+Falls die Modul-Datei vorhanden ist, kann es mit folgendem Befehl aktualisiert werden:
+
+### Modul aktualisieren (nach Code-Änderungen)
 
 ```powershell
-cd C:\playground\ERP\odoo
-.\.\ venv\Scripts\python.exe odoo-bin -c odoo.conf -d erp_dev --http-port=8070 -u barcode_open_food_facts
+python odoo-bin -c odoo.conf -d erp_dev --http-port=8070 -u barcode_open_food_facts
 ```
 
 ### Scanner einrichten
@@ -154,10 +173,10 @@ cd C:\playground\ERP\odoo
    - Teste vorher in Editor/Notepad: Scanner-Input sollte Ziffern schreiben
 
 2. **Im Wizard scannen**
-   - Oeffne: **Barcode OFF > Import Product**
+   - Odoo: **Barcode OFF → Import Product**
    - Klick in das Barcode-Feld
-   - Barcode mit Scanner einscannen → Feld wird automatisch befuellt
-   - Menge + Lagerort waehlen (optional)
+   - Barcode mit Scanner einscannen → Feld wird automatisch befüllt
+   - Menge + Lagerort wählen (optional)
    - **Import** klicken
 
 ### Fallback-Verhalten
@@ -166,9 +185,9 @@ Drei Szenarien beim Import:
 
 | Szenario | Verhalten | Ergebnis |
 |----------|-----------|----------|
-| **OFF liefert Treffer** | Vollstaendiges Daten-Mapping | Produkt mit Name, Bild, Gewicht, Kategorie, etc. |
-| **OFF: kein Treffer (Fallback)** | Minimal-Produkt wird erstellt | Produkt mit nur Barcode + "Unknown Product (XXXXX)" als Name|
-| **Produkt existiert bereits** | Update mit neuen OFF-Daten | Nur neue Felder werden gefuellt, vorhandene bleiben erhalten |
+| **OFF liefert Treffer** | Vollständiges Daten-Mapping | Produkt mit Name, Bild, Gewicht, Kategorie, etc. |
+| **OFF: kein Treffer (Fallback)** | Minimal-Produkt erstellen | Produkt mit Barcode + "Unknown Product (XXXXX)" als Name |
+| **Produkt existiert bereits** | Update mit neuen OFF-Daten | Nur neue Felder werden gefüllt, vorhandene bleiben erhalten |
 
 **Fallback Erkennungszeichen:**
 - Produktname: `Unknown Product (12345678901)`
@@ -176,7 +195,7 @@ Drei Szenarien beim Import:
 
 ### Testbarcodes
 
-Zum Testen kannst du diese gültigen OFF-Barcodes verwenden:
+Gültige Open Food Facts Barcodes zum Testen:
 
 ```
 3017620422003  → Vodka
@@ -184,10 +203,46 @@ Zum Testen kannst du diese gültigen OFF-Barcodes verwenden:
 5060292300396  → Kakaopuder
 ```
 
-Und einen Fake-Barcode zum Fallback testen:
+Fake-Barcode zum Fallback testen:
 ```
-9999999999999  → loest Fallback aus
+9999999999999  → Fallback-Szenario
 ```
+
+---
+
+## Bekannte Probleme & Lösungen
+
+### 🔧 UnicodeDecodeError bei DB-Verbindung
+
+**Symptom:** `UnicodeDecodeError: 'utf-8' codec can't decode byte 0xfc...`
+
+**Ursache:** PowerShell-Umgebungsvariable `PGPASSWORD` überschreibt `db_password` aus `odoo.conf`.
+
+**Lösung:** Vor Odoo-Start ausführen:
+
+```powershell
+Remove-Item Env:PGPASSWORD -ErrorAction SilentlyContinue
+```
+
+**Verifikation** (optional):
+
+```powershell
+python -c "import odoo; from odoo.tools import config; config.parse_config(['-c','odoo.conf','-d','erp_dev']); print(repr(config['db_password']))"
+```
+
+### 🔄 Port 8070 belegt
+
+Wenn Port 8070 belegt ist: Port in `odoo.conf` ändern:
+
+```ini
+http_port = 8071  # oder ein anderer freier Port
+```
+
+### 📦 PostgreSQL Version
+
+Lokal installiert: PostgreSQL 12.x  
+Odoo 19 fordert: PostgreSQL 13+  
+**Status:** Funktioniert lokal, für Produktion Upgrade auf PG 13+ empfohlen.
 
 ---
 
@@ -199,60 +254,27 @@ Und einen Fake-Barcode zum Fallback testen:
 - **Passwort:** openpgpwd
 - **Datenbank:** erp_dev
 
-Falls du psql (Command-Line) nutzen möchtest:
+Falls psql (Command-Line) nutzen:
 
 ```powershell
-$env:PGPASSWORD='openpgpwd'; & "C:\Program Files\Odoo 19.0.20260318\PostgreSQL\bin\psql.exe" -U openpg -h localhost -p 5432 -d erp_dev
+$env:PGPASSWORD='openpgpwd'; psql -U openpg -h localhost -p 5432 -d erp_dev
 ```
 
 ---
 
-## Troubleshooting
+## Arbeitsteilung (Abschlussarbeit)
 
-### Problem: `py -3.12` nicht gefunden
+### Lorenz
+- Kapitel 1: Einleitung (Problemstellung, Zielsetzung)
+- Kapitel 2: Grundlagen (ERP, Barcodes, Open Food Facts API)
 
-**Lösung:** Python 3.12 installieren: https://www.python.org/downloads/
+### Leonard
+- Kapitel 3: Odoo als Systembasis (Produkt-/Lagerverwaltung, Custom-Submodul)
+- Kapitel 4: Konzeption & Umsetzung (Requirements, Prozessablauf, API-Integration, Produktanlage)
 
-### Problem: PostgreSQL Verbindung schlägt fehl
-
-**Lösung:** PostgreSQL-Dienst prüfen:
-```powershell
-Get-Service PostgreSQL_For_Odoo | Start-Service
-```
-
-### Problem: Port 8069 bereits in Verwendung
-
-**Lösung:** In `odoo.conf` ändern:
-```ini
-http_port = 8070  # oder ein anderer freier Port
-```
-
-### Warnung: "Postgres version is 120004, lower than minimum required 130000"
-
-Das ist ok für lokale Entwicklung. Für Production sollte PostgreSQL 13+ verwendet werden.
-
----
-
-## Status und Naechste Schritte
-
-### Erledigt (MVP v1.0)
-- ✅ Barcode-Scanner Integration (HID Keyboard Wedge)
-- ✅ Fallback-Strategie (Minimal-Produkt bei OFF-Treffer-Ausfall)
-- ✅ Open Food Facts API mit v2→v0 Fallback
-- ✅ Intelligentes Daten-Mapping (Name, Bild, Gewicht, Kategorie, Nutri-Score, etc.)
-- ✅ Optionale Bestandsbuchung
-
-### Geplant (nächste Iterationen)
-1. **Auto-Import beim Scanner** (Enter drücken startet automatisch Import)
-2. **Feld-Mapping erweitern** (Herkunft, Allergene, Naehrwertinfo)
-3. **Strukturiertes Logging** (erfolgreiche Imports, Fallback-Rate, API-Performance)
-4. **Benutzer-Feedback im Wizard** (Success/Warning-Messages nach Import)
-5. **Automatisierte Tests** (Unit-Tests fuer OFF-API, Integration Tests fuer Wizard)
-6. **Scanner-Konfiguration** (Scanner-Präfixe, Timeouts, optionales Beep)
-
----
-
-## Hilfreiche Links
+### Gemeinsam
+- Kapitel 5: Analyse (Vorteile, Grenzen, Datenqualität)
+- Kapitel 6: Fazit & Ausblick
 
 - Odoo Dokumentation: https://www.odoo.com/documentation/19.0/
 - Odoo Developer Guide: https://www.odoo.com/documentation/19.0/developer/
