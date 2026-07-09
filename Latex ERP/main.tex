@@ -85,26 +85,19 @@
 % ---------------------------------------------------
 % GRAFIKEN, TABELLEN, MATHE
 % ---------------------------------------------------
-\usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{array}
 \usepackage{longtable}
-\graphicspath{{../Screenshots/}}
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{caption}
 
-\let\originalincludegraphics\includegraphics
-\RenewDocumentCommand{\includegraphics}{O{}m}{%
-  \IfFileExists{#2}{%
-    \IfBlankTF{#1}{%
-      \originalincludegraphics{#2}%
-    }{%
-      \originalincludegraphics[#1]{#2}%
-    }%
-  }{%
-    \fbox{\parbox[c][4cm][c]{0.9\linewidth}{\centering Datei fehlt: #2}}%
-  }%
+\usepackage[final]{graphicx}
+\setkeys{Gin}{draft=false}
+
+\graphicspath{
+  {./}
+  {../Screenshots/}
 }
 
 \captionsetup{
@@ -515,12 +508,13 @@ Die Produktverwaltung in Odoo erfolgt über zentrale Produktmodelle, in denen gr
 Abbildung \ref{fig:produkt-uebersicht} zeigt die Produktübersicht im Prototyp, während Abbildung \ref{fig:produkt-vendor} die Verknüpfung eines Produkts mit einem Lieferanten dokumentiert. Beide Ansichten sind für die spätere automatische Produktanlage und die Beschaffungslogik relevant.
 
 \begin{figure}[htbp]
-  \centering
-  \caption{Produktübersicht im Odoo-Prototyp}
-  \label{fig:produkt-uebersicht}
-  \includegraphics[width=0.95\textwidth]{Produkt Übersicht.png}
-  \figsource
+    \centering
+    \includegraphics[width=0.95\textwidth]{produkt-uebersicht.png}
+    \caption{Produktübersicht im Odoo-Prototyp}
+    \label{fig:produkt-uebersicht}
+    \figsource
 \end{figure}
+
 
 \begin{figure}[htbp]
   \centering
